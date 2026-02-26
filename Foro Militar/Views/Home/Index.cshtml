@@ -1,0 +1,397 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Hero */
+    .hero {
+        background: linear-gradient(135deg, #0d1b2a 0%, #1a2a3a 50%, #0d1b2a 100%);
+        padding: 60px 40px 50px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(74,127,165,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(179,48,48,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 700px;
+    }
+
+    .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(74,127,165,0.2);
+        border: 1px solid rgba(74,127,165,0.4);
+        color: #4a7fa5;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #ffffff;
+        line-height: 1.2;
+        margin-bottom: 16px;
+    }
+
+        .hero h1 span {
+            color: #4a7fa5;
+        }
+
+    .hero p {
+        color: #9ab0c4;
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 32px;
+        max-width: 560px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .btn-hero-primary {
+        background: #4a7fa5;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.2s, transform 0.1s;
+    }
+
+        .btn-hero-primary:hover {
+            background: #3a6a8e;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+    .btn-hero-secondary {
+        background: rgba(255,255,255,0.08);
+        color: #9ab0c4;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s;
+    }
+
+        .btn-hero-secondary:hover {
+            background: rgba(255,255,255,0.14);
+            color: #fff;
+        }
+
+    /* Dashboard */
+    .dashboard {
+        padding: 36px 40px;
+        background: #f0f2f5;
+    }
+
+    .section-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #6b7c8d;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #dce3ea;
+        }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 36px;
+    }
+
+    .stat-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 24px;
+        border: 1px solid #e8eef4;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: #6b7c8d;
+        font-weight: 500;
+    }
+
+    .quick-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .quick-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 28px;
+        border: 1px solid #e8eef4;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: all 0.2s;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+        .quick-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .quick-card .qc-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .quick-card h5 {
+            color: #1a2a3a;
+            font-weight: 700;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .quick-card p {
+            color: #6b7c8d;
+            margin: 0;
+            font-size: 0.83rem;
+            line-height: 1.5;
+        }
+
+        .quick-card .qc-arrow {
+            margin-top: auto;
+            color: #4a7fa5;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+</style>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-eyebrow">
+            <i class="fa-solid fa-shield-halved"></i>
+            Sistema de Seguimiento Militar
+        </div>
+        <h1>Conflictos <span>Globales</span><br>en Tiempo Real</h1>
+        <p>
+            Plataforma de documentación y seguimiento de conflictos armados alrededor del mundo.
+            Consulta información detallada, visualiza conflictos activos en el globo terráqueo
+            y gestiona el registro de eventos históricos y actuales.
+        </p>
+        <div class="hero-buttons">
+            <a href="@Url.Action("Index", "GloboView")" class="btn-hero-primary">
+                <i class="fa-solid fa-earth-americas"></i>
+                Ver Globo de Conflictos
+            </a>
+            <a href="@Url.Action("Index", "ForoView")" class="btn-hero-secondary">
+                <i class="fa fa-database"></i>
+                Gestionar Información
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Dashboard -->
+<div class="dashboard">
+
+    <div class="section-title">
+        <i class="fa fa-chart-bar"></i>
+        Estadísticas Globales
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#eef4fa;">
+                <i class="fa fa-database" style="color:#4a7fa5;"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number" id="statTotal" style="color:#1a2a3a;">—</div>
+                <div class="stat-label">Total de conflictos registrados</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#fdeaea;">
+                <i class="fa fa-fire" style="color:#b33030;"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number" id="statActivos" style="color:#b33030;">—</div>
+                <div class="stat-label">Conflictos activos actualmente</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#eaf4ea;">
+                <i class="fa fa-map-marker-alt" style="color:#2a6e3a;"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number" id="statPaises" style="color:#2a6e3a;">—</div>
+                <div class="stat-label">Países afectados</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <i class="fa fa-bolt"></i>
+        Acceso Rápido
+    </div>
+
+    <div class="quick-grid">
+        <a href="@Url.Action("Index", "GloboView")" class="quick-card">
+            <div class="qc-icon" style="background:#eef4fa;">
+                <i class="fa-solid fa-earth-americas" style="color:#4a7fa5; font-size:1.3rem;"></i>
+            </div>
+            <h5>Globo de Conflictos</h5>
+            <p>Visualiza en tiempo real los conflictos activos alrededor del mundo en un globo terráqueo 3D interactivo.</p>
+            <div class="qc-arrow">Explorar <i class="fa fa-arrow-right"></i></div>
+        </a>
+
+        <a href="@Url.Action("Index", "ForoView")" class="quick-card">
+            <div class="qc-icon" style="background:#f0f7f0;">
+                <i class="fa fa-database" style="color:#2a6e3a; font-size:1.3rem;"></i>
+            </div>
+            <h5>Gestionar Información</h5>
+            <p>Agrega, edita o elimina registros de conflictos. Marca guerras como activas e históricas y asigna países.</p>
+            <div class="qc-arrow">Gestionar <i class="fa fa-arrow-right"></i></div>
+        </a>
+
+        <div class="quick-card" style="border:1px dashed #dce3ea; box-shadow:none; background:#fafbfc;">
+            <div class="qc-icon" style="background:#f0f2f5;">
+                <i class="fa fa-clock" style="color:#9ab0c4; font-size:1.3rem;"></i>
+            </div>
+            <h5 style="color:#9ab0c4;">Último conflicto registrado</h5>
+            <p id="ultimoConflicto" style="color:#9ab0c4;">Cargando...</p>
+            <div class="qc-arrow" style="color:#9ab0c4;">
+                <span id="ultimaFecha"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/api/Foro')
+            .then(res => res.json())
+            .then(data => {
+                animarContador('statTotal', data.length);
+
+                const activos = data.filter(f => f.Activa === true).length;
+                animarContador('statActivos', activos);
+
+                const paises = new Set(
+                    data.map(f => (f.Pais || '').trim().toLowerCase()).filter(p => p !== '')
+                );
+                animarContador('statPaises', paises.size);
+
+                if (data.length > 0) {
+                    const ultimo = data[data.length - 1];
+                    document.getElementById('ultimoConflicto').innerText = ultimo.Titulo;
+                    document.getElementById('ultimoConflicto').style.color = '#1a2a3a';
+                    document.getElementById('ultimaFecha').innerText = ultimo.Fecha ? ultimo.Fecha.split('T')[0] : '';
+                }
+            });
+    });
+
+    function animarContador(id, objetivo) {
+        const el = document.getElementById(id);
+        let actual = 0;
+        const paso = Math.ceil(objetivo / 30);
+        const intervalo = setInterval(() => {
+            actual = Math.min(actual + paso, objetivo);
+            el.innerText = actual;
+            if (actual >= objetivo) clearInterval(intervalo);
+        }, 40);
+    }
+    </script>
+}

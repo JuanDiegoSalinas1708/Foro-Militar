@@ -1,0 +1,548 @@
+﻿@{
+    ViewBag.Title = "Foro Militar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold" style="color:#1a2a3a;">
+            <i class="fa-solid fa-shield-halved" style="color:#4a7fa5;"></i>
+            Foro Militar
+        </h3>
+        <div class="d-flex gap-2">
+            <a href="@Url.Action("Index", "GloboView")" class="btn btn-globe px-4">
+                <i class="fa-solid fa-earth-americas me-1"></i> Conflictos Activos
+            </a>
+            <button class="btn btn-primary-custom px-4" onclick="abrirModalCrear()">
+                <i class="fa fa-plus"></i> Nueva Publicación
+            </button>
+        </div>
+    </div>
+
+    <!-- Card Principal -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle text-center mb-0">
+                <thead class="thead-custom">
+                    <tr>
+                        <th>#</th>
+                        <th>Título</th>
+                        <th>Hechos</th>
+                        <th>País</th>
+                        <th>Fecha</th>
+                        <th>Imagen</th>
+                        <th>Activa</th>
+                        <th style="width:120px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaForo"></tbody>
+            </table>
+
+            <!-- Paginación -->
+            <div id="paginacion"></div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL VER DETALLE -->
+<div class="modal fade" id="modalDetalle" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title" id="detalleTitulo"></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0" style="background-color:#f8f9fb;">
+                <div class="row g-0">
+                    <div class="col-md-5 d-flex align-items-center justify-content-center" style="background-color:#1a2a3a; min-height:280px;">
+                        <img id="detalleImagen" src="" alt="Imagen"
+                             style="max-width:100%; max-height:320px; object-fit:contain; padding:16px;"
+                             onerror="this.style.display='none'; document.getElementById('sinImagen').style.display='flex';">
+                        <div id="sinImagen" style="display:none; flex-direction:column; align-items:center; justify-content:center; color:#6b7c8d; padding:20px;">
+                            <i class="fa fa-image fa-3x mb-2"></i>
+                            <span>Sin imagen</span>
+                        </div>
+                    </div>
+                    <div class="col-md-7 p-4">
+                        <div class="d-flex gap-2 mb-3 flex-wrap">
+                            <span class="badge" style="background-color:#2c4a6e; font-size:0.8rem;">
+                                <i class="fa fa-calendar me-1"></i>
+                                <span id="detalleFecha"></span>
+                            </span>
+                            <span class="badge" style="background-color:#3a6a3a; font-size:0.8rem;">
+                                <i class="fa fa-map-marker me-1"></i>
+                                <span id="detallePais"></span>
+                            </span>
+                            <span id="detalleActivaBadge" class="badge" style="font-size:0.8rem;"></span>
+                        </div>
+                        <h6 class="fw-bold mb-2" style="color:#2c4a6e;">Descripción de los hechos</h6>
+                        <p id="detalleHechos" style="color:#1a2a3a; line-height:1.7; text-align:justify;"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color:#f0f2f5;">
+                <button class="btn btn-secondary-custom" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CREAR / EDITAR -->
+<div class="modal fade" id="modalForo" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title" id="modalTitulo"></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="background-color:#f8f9fb;">
+                <input type="hidden" id="foroId">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold label-custom">Título</label>
+                    <input type="text" id="titulo" class="form-control input-custom" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold label-custom">Hechos</label>
+                    <textarea id="hechos" class="form-control input-custom" rows="3" required></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold label-custom">Fecha</label>
+                        <input type="date" id="fecha" class="form-control input-custom" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold label-custom">País(es)</label>
+                        <input type="text" id="pais" class="form-control input-custom" placeholder="Ej: Israel, Gaza">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold label-custom">Imagen (URL)</label>
+                    <input type="text" id="imagen" class="form-control input-custom" placeholder="https://...">
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="activa" style="width:2.5em; height:1.3em;">
+                        <label class="form-check-label fw-semibold label-custom ms-2" for="activa">
+                            ¿Conflicto activo actualmente?
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color:#f0f2f5;">
+                <button class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary-custom px-4" onclick="guardarForo()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ELIMINAR -->
+<div class="modal fade" id="modalEliminar" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header" style="background-color:#b33030; color:white; border-radius:10px 10px 0 0;">
+                <h6 class="modal-title">Confirmar eliminación</h6>
+            </div>
+            <div class="modal-body text-center" style="color:#1a2a3a; background-color:#f8f9fb;">
+                ¿Está seguro que desea eliminar esta publicación?
+                <input type="hidden" id="idEliminar">
+            </div>
+            <div class="modal-footer" style="background-color:#f0f2f5;">
+                <button class="btn btn-secondary-custom btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-danger-custom btn-sm" onclick="confirmarEliminar()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --color-navy: #1a2a3a;
+        --color-steel: #2c4a6e;
+        --color-accent: #4a7fa5;
+        --color-accent-hover: #3a6a8e;
+        --color-border: #dce3ea;
+        --color-danger: #b33030;
+        --color-danger-hover: #962828;
+        --color-warning: #a07520;
+        --color-globe: #2a6e3a;
+        --color-globe-hover: #1e5229;
+    }
+
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .thead-custom {
+        background-color: var(--color-steel);
+        color: #ffffff;
+    }
+
+        .thead-custom th {
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            padding: 14px 10px;
+            border: none;
+        }
+
+    table tbody tr {
+        color: var(--color-navy);
+        cursor: pointer;
+    }
+
+        table tbody tr:hover {
+            background-color: #e8eef4;
+            transition: background-color 0.2s;
+        }
+
+    table tbody td {
+        color: var(--color-navy);
+        vertical-align: middle;
+        padding: 10px;
+        border-color: var(--color-border);
+    }
+
+        table tbody td:last-child {
+            cursor: default;
+        }
+
+    .btn-primary-custom {
+        background-color: var(--color-accent);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+
+        .btn-primary-custom:hover {
+            background-color: var(--color-accent-hover);
+            color: #ffffff;
+        }
+
+    .btn-secondary-custom {
+        background-color: #d0d7de;
+        color: var(--color-navy);
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+    }
+
+        .btn-secondary-custom:hover {
+            background-color: #bac3cc;
+            color: var(--color-navy);
+        }
+
+    .btn-danger-custom {
+        background-color: var(--color-danger);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+    }
+
+        .btn-danger-custom:hover {
+            background-color: var(--color-danger-hover);
+            color: #ffffff;
+        }
+
+    .btn-globe {
+        background-color: var(--color-globe);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+
+        .btn-globe:hover {
+            background-color: var(--color-globe-hover);
+            color: #ffffff;
+        }
+
+    .btn-outline-warning {
+        color: var(--color-warning) !important;
+        border-color: var(--color-warning) !important;
+    }
+
+        .btn-outline-warning:hover {
+            background-color: var(--color-warning) !important;
+            color: #ffffff !important;
+        }
+
+    .btn-outline-danger {
+        color: var(--color-danger) !important;
+        border-color: var(--color-danger) !important;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: var(--color-danger) !important;
+            color: #ffffff !important;
+        }
+
+    .modal-header-custom {
+        background-color: var(--color-steel);
+        color: #ffffff;
+    }
+
+    .label-custom {
+        color: var(--color-navy);
+    }
+
+    .input-custom {
+        border-color: var(--color-border);
+        color: var(--color-navy);
+        background-color: #ffffff;
+    }
+
+        .input-custom:focus {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 0.2rem rgba(74,127,165,0.2);
+        }
+
+    img.preview-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid var(--color-border);
+    }
+
+    /* Paginación */
+    .page-link {
+        color: var(--color-steel);
+        border-color: var(--color-border);
+    }
+
+        .page-link:hover {
+            background-color: #e8eef4;
+            color: var(--color-navy);
+            border-color: var(--color-border);
+        }
+
+    .page-item.active .page-link {
+        background-color: var(--color-steel) !important;
+        border-color: var(--color-steel) !important;
+        color: #fff !important;
+    }
+
+    .page-item.disabled .page-link {
+        color: #aab4be;
+    }
+</style>
+
+@section scripts {
+    <script>
+
+        const apiUrl = "/api/Foro";
+        let modalForo, modalEliminar, modalDetalle;
+        let todosLosRegistros = [];
+        let paginaActual = 1;
+        const registrosPorPagina = 5;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            modalForo = new bootstrap.Modal(document.getElementById('modalForo'));
+            modalEliminar = new bootstrap.Modal(document.getElementById('modalEliminar'));
+            modalDetalle = new bootstrap.Modal(document.getElementById('modalDetalle'));
+            cargarForo();
+        });
+
+        function cargarForo() {
+            fetch(apiUrl)
+                .then(res => res.json())
+                .then(data => {
+                    todosLosRegistros = data;
+                    paginaActual = 1;
+                    renderTabla();
+                });
+        }
+
+        function renderTabla() {
+            const inicio = (paginaActual - 1) * registrosPorPagina;
+            const fin = inicio + registrosPorPagina;
+            const pagina = todosLosRegistros.slice(inicio, fin);
+            const totalPaginas = Math.ceil(todosLosRegistros.length / registrosPorPagina);
+
+            let html = "";
+            pagina.forEach(f => {
+                const imgSrc = f.Imagen
+                    ? (f.Imagen.startsWith('http') ? f.Imagen : '/Imagenes/' + f.Imagen)
+                    : '';
+
+                const activaBadge = f.Activa
+                    ? `<span class="badge" style="background-color:#b33030;">Activa</span>`
+                    : `<span class="badge" style="background-color:#6b7c8d;">Histórica</span>`;
+
+                html += `
+                <tr onclick="verDetalle('${f.Id}', \`${f.Titulo}\`, \`${f.Hechos}\`, '${f.Fecha}', '${imgSrc}', \`${f.Pais || ''}\`, ${f.Activa})">
+                    <td>${f.Id}</td>
+                    <td class="text-start fw-semibold">${f.Titulo}</td>
+                    <td class="text-start">${f.Hechos}</td>
+                    <td>${f.Pais || '—'}</td>
+                    <td>${f.Fecha.split("T")[0]}</td>
+                    <td>${imgSrc ? `<img src="${imgSrc}" class="preview-img">` : '—'}</td>
+                    <td>${activaBadge}</td>
+                    <td onclick="event.stopPropagation()">
+                        <button class="btn btn-sm btn-outline-warning me-1"
+                            onclick="editar(${f.Id}, \`${f.Titulo}\`, \`${f.Hechos}\`, '${f.Fecha}', '${f.Imagen || ''}', \`${f.Pais || ''}\`, ${f.Activa})">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger"
+                            onclick="eliminar(${f.Id})">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            });
+
+            document.getElementById("tablaForo").innerHTML = html;
+            renderPaginacion(totalPaginas);
+        }
+
+        function renderPaginacion(totalPaginas) {
+            const inicio = ((paginaActual - 1) * registrosPorPagina) + 1;
+            const fin = Math.min(paginaActual * registrosPorPagina, todosLosRegistros.length);
+
+            let html = `
+            <div class="d-flex justify-content-between align-items-center px-3 py-2" style="background:#f8f9fb; border-top:1px solid #dce3ea;">
+                <small style="color:#6b7c8d;">
+                    Mostrando ${inicio}–${fin} de ${todosLosRegistros.length} registros
+                </small>
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item ${paginaActual === 1 ? 'disabled' : ''}">
+                        <button class="page-link" onclick="cambiarPagina(${paginaActual - 1})">
+                            <i class="fa fa-chevron-left"></i>
+                        </button>
+                    </li>`;
+
+            for (let i = 1; i <= totalPaginas; i++) {
+                html += `
+                    <li class="page-item ${i === paginaActual ? 'active' : ''}">
+                        <button class="page-link" onclick="cambiarPagina(${i})">${i}</button>
+                    </li>`;
+            }
+
+            html += `
+                    <li class="page-item ${paginaActual === totalPaginas ? 'disabled' : ''}">
+                        <button class="page-link" onclick="cambiarPagina(${paginaActual + 1})">
+                            <i class="fa fa-chevron-right"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>`;
+
+            document.getElementById("paginacion").innerHTML = html;
+        }
+
+        function cambiarPagina(pagina) {
+            const totalPaginas = Math.ceil(todosLosRegistros.length / registrosPorPagina);
+            if (pagina < 1 || pagina > totalPaginas) return;
+            paginaActual = pagina;
+            renderTabla();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function verDetalle(id, titulo, hechos, fecha, imagen, pais, activa) {
+            document.getElementById("detalleTitulo").innerText = titulo;
+            document.getElementById("detalleHechos").innerText = hechos;
+            document.getElementById("detalleFecha").innerText = fecha ? fecha.split("T")[0] : '';
+            document.getElementById("detallePais").innerText = pais || 'Sin especificar';
+
+            const activaBadge = document.getElementById("detalleActivaBadge");
+            activaBadge.innerText = activa ? "⚔ Conflicto Activo" : "📜 Histórico";
+            activaBadge.style.backgroundColor = activa ? "#b33030" : "#6b7c8d";
+
+            const img = document.getElementById("detalleImagen");
+            const sinImagen = document.getElementById("sinImagen");
+            if (imagen) {
+                img.src = imagen;
+                img.style.display = "block";
+                sinImagen.style.display = "none";
+            } else {
+                img.style.display = "none";
+                sinImagen.style.display = "flex";
+            }
+
+            modalDetalle.show();
+        }
+
+        function abrirModalCrear() {
+            limpiar();
+            document.getElementById("modalTitulo").innerText = "Nueva Publicación";
+            modalForo.show();
+        }
+
+        function editar(id, titulo, hechos, fecha, imagen, pais, activa) {
+            document.getElementById("foroId").value = id;
+            document.getElementById("titulo").value = titulo;
+            document.getElementById("hechos").value = hechos;
+            document.getElementById("fecha").value = fecha.split("T")[0];
+            document.getElementById("imagen").value = imagen || '';
+            document.getElementById("pais").value = pais || '';
+            document.getElementById("activa").checked = activa;
+            document.getElementById("modalTitulo").innerText = "Editar Publicación";
+            modalForo.show();
+        }
+
+        function guardarForo() {
+            const id = document.getElementById("foroId").value;
+            const foro = {
+                Titulo: document.getElementById("titulo").value,
+                Hechos: document.getElementById("hechos").value,
+                Fecha: document.getElementById("fecha").value,
+                Imagen: document.getElementById("imagen").value,
+                Pais: document.getElementById("pais").value,
+                Activa: document.getElementById("activa").checked
+            };
+
+            if (id) {
+                fetch(apiUrl + "?id=" + id, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(foro)
+                }).then(() => { modalForo.hide(); cargarForo(); });
+            } else {
+                fetch(apiUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(foro)
+                }).then(() => { modalForo.hide(); cargarForo(); });
+            }
+        }
+
+        function eliminar(id) {
+            document.getElementById("idEliminar").value = id;
+            modalEliminar.show();
+        }
+
+        function confirmarEliminar() {
+            const id = document.getElementById("idEliminar").value;
+            fetch(apiUrl + "?id=" + id, { method: "DELETE" })
+                .then(() => { modalEliminar.hide(); cargarForo(); });
+        }
+
+        function limpiar() {
+            document.getElementById("foroId").value = "";
+            document.getElementById("titulo").value = "";
+            document.getElementById("hechos").value = "";
+            document.getElementById("fecha").value = "";
+            document.getElementById("imagen").value = "";
+            document.getElementById("pais").value = "";
+            document.getElementById("activa").checked = false;
+        }
+
+    </script>
+}

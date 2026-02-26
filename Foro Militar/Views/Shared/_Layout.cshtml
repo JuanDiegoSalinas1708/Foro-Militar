@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - Foro Militar</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --sidebar-width: 240px;
+            --sidebar-bg: #0f1923;
+            --sidebar-hover: #1a2a3a;
+            --sidebar-active: #2c4a6e;
+            --accent: #4a7fa5;
+            --danger: #b33030;
+            --text-muted: #6b7c8d;
+            --border: #1e2e3e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Sidebar ── */
+        #sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .sidebar-logo {
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+            .sidebar-logo .logo-icon {
+                width: 38px;
+                height: 38px;
+                background: var(--accent);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-size: 1rem;
+                color: #fff;
+            }
+
+            .sidebar-logo .logo-text {
+                color: #ffffff;
+                font-weight: 700;
+                font-size: 0.95rem;
+                line-height: 1.2;
+            }
+
+            .sidebar-logo .logo-sub {
+                color: var(--text-muted);
+                font-size: 0.7rem;
+            }
+
+        .sidebar-section {
+            padding: 16px 12px 4px;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 8px 0;
+            overflow-y: auto;
+        }
+
+        .nav-item-sidebar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 20px;
+            color: #9ab0c4;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            white-space: nowrap;
+        }
+
+            .nav-item-sidebar:hover {
+                background: var(--sidebar-hover);
+                color: #ffffff;
+                text-decoration: none;
+            }
+
+            .nav-item-sidebar.active {
+                background: var(--sidebar-active);
+                color: #ffffff;
+                border-left-color: var(--accent);
+            }
+
+            .nav-item-sidebar .nav-icon {
+                width: 20px;
+                text-align: center;
+                font-size: 0.95rem;
+                flex-shrink: 0;
+            }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.72rem;
+        }
+
+        /* ── Main content ── */
+        #main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ── Top bar ── */
+        #topbar {
+            background: #ffffff;
+            border-bottom: 1px solid #dce3ea;
+            padding: 12px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+            #topbar .page-title {
+                font-weight: 700;
+                color: #1a2a3a;
+                font-size: 1rem;
+            }
+
+            #topbar .topbar-right {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                color: var(--text-muted);
+                font-size: 0.82rem;
+            }
+
+        /* ── Page body ── */
+        #page-body {
+            flex: 1;
+            padding: 28px;
+        }
+
+        /* ── Footer ── */
+        #main-footer {
+            background: #ffffff;
+            border-top: 1px solid #dce3ea;
+            padding: 12px 28px;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            text-align: center;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── SIDEBAR ── -->
+    <div id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+                <div class="logo-text">Foro Militar</div>
+                <div class="logo-sub">Sistema de conflictos</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="sidebar-section">Principal</div>
+
+            <a href="@Url.Action("Index", "Home")"
+               class="nav-item-sidebar @(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+                Inicio
+            </a>
+
+            <a href="@Url.Action("Index", "GloboView")"
+               class="nav-item-sidebar @(ViewContext.RouteData.Values["controller"].ToString() == "GloboView" ? "active" : "")">
+                <span class="nav-icon"><i class="fa-solid fa-earth-americas"></i></span>
+                Conflictos Activos
+                <span class="nav-badge" id="sidebar-badge">...</span>
+            </a>
+
+            <div class="sidebar-section">Gestión</div>
+
+            <a href="@Url.Action("Index", "ForoView")"
+               class="nav-item-sidebar @(ViewContext.RouteData.Values["controller"].ToString() == "ForoView" ? "active" : "")">
+                <span class="nav-icon"><i class="fa-solid fa-database"></i></span>
+                Gestionar Información
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <i class="fa fa-circle" style="color:#2ecc71; font-size:0.6rem;"></i>
+            Sistema activo &nbsp;·&nbsp; @DateTime.Now.Year
+        </div>
+    </div>
+
+    <!-- ── MAIN ── -->
+    <div id="main-content">
+
+        <div id="topbar">
+            <div class="page-title">
+                <i class="fa-solid fa-shield-halved me-2" style="color:#4a7fa5;"></i>
+                @ViewBag.Title
+            </div>
+            <div class="topbar-right">
+                <i class="fa fa-calendar me-1"></i>
+                @DateTime.Now.ToString("dd MMM yyyy")
+            </div>
+        </div>
+
+        <div id="page-body">
+            @RenderBody()
+        </div>
+
+        <div id="main-footer">
+            &copy; @DateTime.Now.Year — Foro Militar · Sistema de seguimiento de conflictos globales
+        </div>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        fetch('/api/Foro')
+            .then(r => r.json())
+            .then(data => {
+                const activos = data.filter(f => f.Activa === true).length;
+                const badge = document.getElementById('sidebar-badge');
+                if (activos > 0) {
+                    badge.innerText = activos;
+                } else {
+                    badge.style.display = 'none';
+                }
+            })
+            .catch(() => {
+                document.getElementById('sidebar-badge').style.display = 'none';
+            });
+    </script>
+
+</body>
+</html>

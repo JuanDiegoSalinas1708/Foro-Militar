@@ -10,7 +10,7 @@ namespace Foro_Militar
         public static void Register(HttpConfiguration config)
         {
             // Configuración y servicios de Web API
-
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
             // Rutas de Web API
             config.MapHttpAttributeRoutes();
 

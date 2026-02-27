@@ -1,61 +1,89 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Http;
 
-[RoutePrefix("api/Foro")]
-public class ForoController : ApiController
+[RoutePrefix("api/posts")]
+public class PostController : ApiController
 {
+    // =========================
+    // CREAR POST
+    // =========================
     [HttpPost]
-    public IHttpActionResult Post([FromBody] Foro foro) 
+    public IHttpActionResult Post([FromBody] Post post)
     {
-        if (foro == null)
-            return BadRequest("Datos Invalidos");
+        if (post == null)
+            return BadRequest("Datos inválidos");
 
-        // ✅ Validación extra para evitar nulls
-        if (string.IsNullOrEmpty(foro.Titulo) || string.IsNullOrEmpty(foro.Hechos))
-            return BadRequest("Titulo y Hechos son obligatorios");
+        if (string.IsNullOrEmpty(post.Title) || string.IsNullOrEmpty(post.Content))
+            return BadRequest("Title y Content son obligatorios");
 
-        ForoDal dal = new ForoDal();
-        bool resultado = dal.Insertar(foro.Titulo, foro.Hechos, foro.Fecha, foro.Imagen, foro.Pais, foro.Activa);
+        PostDal dal = new PostDal();
+
+        bool resultado = dal.Insertar(
+            post.Title,
+            post.Content,
+            post.Image,
+            post.Country,
+            post.UserId,
+            post.CommunityId,
+            post.MainCategoryId
+        );
 
         if (!resultado)
-            return BadRequest("No se pudo agregar tu informacion");
+            return BadRequest("No se pudo crear el post");
 
-        return Ok(resultado);
+        return Ok("Post creado correctamente");
     }
 
+    // =========================
+    // OBTENER TODOS
+    // =========================
     [HttpGet]
     public IHttpActionResult Get()
     {
-        ForoDal dal = new ForoDal();
-        var foro = dal.ObtenerTodos();
-        return Ok(foro);
+        PostDal dal = new PostDal();
+        var posts = dal.ObtenerTodos();
+
+        return Ok(posts);
     }
 
+    // =========================
+    // ACTUALIZAR
+    // =========================
     [HttpPut]
-    public IHttpActionResult Put(int id, [FromBody] Foro foro)  
+    public IHttpActionResult Put(int id, [FromBody] Post post)
     {
-        if (foro == null)
-            return BadRequest("Datos invalidos");
+        if (post == null)
+            return BadRequest("Datos inválidos");
 
-        ForoDal dal = new ForoDal();
-        bool actualizado = dal.Actualizar(id, foro.Titulo, foro.Hechos, foro.Fecha, foro.Imagen,foro.Pais,foro.Activa);
+        PostDal dal = new PostDal();
+
+        bool actualizado = dal.Actualizar(
+            id,
+            post.Title,
+            post.Content,
+            post.Image,
+            post.Country,
+            post.MainCategoryId
+        );
 
         if (!actualizado)
             return NotFound();
 
-        return Ok("Registro Actualizado");
+        return Ok("Post actualizado correctamente");
     }
 
+    // =========================
+    // ELIMINAR (Soft Delete)
+    // =========================
     [HttpDelete]
     public IHttpActionResult Delete(int id)
     {
-        ForoDal dal = new ForoDal();
+        PostDal dal = new PostDal();
         bool eliminado = dal.Eliminar(id);
 
         if (!eliminado)
             return NotFound();
 
-        return Ok("Registro Eliminado");
+        return Ok("Post eliminado correctamente");
     }
 }

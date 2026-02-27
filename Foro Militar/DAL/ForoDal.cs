@@ -2,100 +2,141 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Net.Configuration;
 
-public class ForoDal
+public class PostDal
 {
     private string ConnectionString =
         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-    public bool Insertar(string titulo, string hechos, DateTime fecha, string imagen,string pais,bool activa)
+    // =========================
+    // INSERTAR
+    // =========================
+    public bool Insertar(string title, string content, string image, string country,
+                         int userId, int communityId, int mainCategoryId)
     {
         using (SqlConnection conn = new SqlConnection(ConnectionString))
         {
             conn.Open();
-            string query = "INSERT INTO Historico (Titulo,Hechos,Fecha,Imagen,pais,activa) VALUES (@Titulo,@Hechos,@Fecha,@Imagen,@Pais,@Activa)";
+
+            string query = @"INSERT INTO Posts
+                            (Title, Content, Image, Country, UserId, CommunityId, MainCategoryId)
+                             VALUES
+                            (@Title, @Content, @Image, @Country, @UserId, @CommunityId, @MainCategoryId)";
+
             SqlCommand cmd = new SqlCommand(query, conn);
 
-            
-            cmd.Parameters.AddWithValue("@Titulo", (object)titulo ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Hechos", (object)hechos ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Fecha", fecha);
-            cmd.Parameters.AddWithValue("@Imagen", (object)imagen ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Pais", (object)pais ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Activa",activa);
+            cmd.Parameters.AddWithValue("@Title", title);
+            cmd.Parameters.AddWithValue("@Content", content);
+            cmd.Parameters.AddWithValue("@Image", (object)image ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Country", (object)country ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@UserId", userId);
+            cmd.Parameters.AddWithValue("@CommunityId", communityId);
+            cmd.Parameters.AddWithValue("@MainCategoryId", mainCategoryId);
 
-            int filasAfectadas = cmd.ExecuteNonQuery();
-            return filasAfectadas > 0;
+            return cmd.ExecuteNonQuery() > 0;
         }
     }
 
-    public List<Foro> ObtenerTodos()
+    // =========================
+    // OBTENER TODOS (solo activos)
+    // =========================
+    public List<Post> ObtenerTodos()
     {
-        List<Foro> lista = new List<Foro>();
+        List<Post> lista = new List<Post>();
+
         using (SqlConnection conn = new SqlConnection(ConnectionString))
         {
             conn.Open();
-            string query = "SELECT Id,Titulo,Hechos,Fecha,Imagen,Pais,Activa FROM Historico";
+
+            string query = @"SELECT 
+                            p.Id,
+                            p.Title,
+                            p.Content,
+                            p.Image,
+                            p.Country,
+                            p.CreatedAt,
+                            u.Username,
+                            c.Name AS CommunityName,
+                            cat.Name AS CategoryName,
+                            cat.ColorHex
+                        FROM Posts p
+                        INNER JOIN Users u ON p.UserId = u.Id
+                        INNER JOIN Communities c ON p.CommunityId = c.Id
+                        INNER JOIN Categories cat ON p.MainCategoryId = cat.Id
+                        WHERE p.IsDeleted = 0
+                        ORDER BY p.CreatedAt DESC";
+
             SqlCommand cmd = new SqlCommand(query, conn);
             SqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
-                Foro foro = new Foro
+                Post post = new Post
                 {
                     Id = (int)reader["Id"],
-                    Titulo = reader["Titulo"].ToString(),
-                    Hechos = reader["Hechos"].ToString(),
-                    Fecha = (DateTime)reader["Fecha"],
-                    Imagen = reader["Imagen"].ToString(),
-                    Pais = reader["Pais"].ToString(),
-                    Activa = (bool)reader["Activa"]
-
+                    Title = reader["Title"].ToString(),
+                    Content = reader["Content"].ToString(),
+                    Image = reader["Image"] == DBNull.Value ? null : reader["Image"].ToString(),
+                    Country = reader["Country"] == DBNull.Value ? null : reader["Country"].ToString(),
+                    CreatedAt = (DateTime)reader["CreatedAt"]
                 };
-                lista.Add(foro);
+
+                lista.Add(post);
             }
         }
+
         return lista;
     }
 
-    public bool Actualizar(int id, string titulo, string hechos, DateTime fecha, string imagen,string pais,bool activa)
+    // =========================
+    // ACTUALIZAR
+    // =========================
+    public bool Actualizar(int id, string title, string content, string image,
+                           string country, int mainCategoryId)
     {
         using (SqlConnection conn = new SqlConnection(ConnectionString))
         {
             conn.Open();
-            string query = @"UPDATE Historico 
-                             SET Titulo=@Titulo, Hechos=@Hechos, Fecha=@Fecha, Imagen=@Imagen, Pais=@Pais, Activa=@Activa 
-                             WHERE Id=@Id";
+
+            string query = @"UPDATE Posts
+                             SET Title = @Title,
+                                 Content = @Content,
+                                 Image = @Image,
+                                 Country = @Country,
+                                 MainCategoryId = @MainCategoryId,
+                                 UpdatedAt = GETDATE()
+                             WHERE Id = @Id";
+
             SqlCommand cmd = new SqlCommand(query, conn);
 
             cmd.Parameters.AddWithValue("@Id", id);
-            
-            cmd.Parameters.AddWithValue("@Titulo", (object)titulo ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Hechos", (object)hechos ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Fecha", fecha);
-            cmd.Parameters.AddWithValue("@Imagen", (object)imagen ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Pais",(object)pais ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Activa", activa);
+            cmd.Parameters.AddWithValue("@Title", title);
+            cmd.Parameters.AddWithValue("@Content", content);
+            cmd.Parameters.AddWithValue("@Image", (object)image ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Country", (object)country ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@MainCategoryId", mainCategoryId);
 
-            int filas = cmd.ExecuteNonQuery();
-            return filas > 0;
+            return cmd.ExecuteNonQuery() > 0;
         }
     }
 
+    // =========================
+    // ELIMINAR (Soft Delete)
+    // =========================
     public bool Eliminar(int id)
     {
         using (SqlConnection conn = new SqlConnection(ConnectionString))
         {
             conn.Open();
-            string query = "DELETE FROM Historico WHERE Id=@Id";
-            SqlCommand cmd = new SqlCommand(query, conn);
 
-            // ✅ Fix: faltaba el "@" en el nombre del parámetro
+            string query = @"UPDATE Posts
+                             SET IsDeleted = 1
+                             WHERE Id = @Id";
+
+            SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@Id", id);
 
-            int filas = cmd.ExecuteNonQuery();
-            return filas > 0;
+            return cmd.ExecuteNonQuery() > 0;
         }
     }
 }

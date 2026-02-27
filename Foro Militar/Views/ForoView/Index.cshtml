@@ -29,11 +29,10 @@
                     <tr>
                         <th>#</th>
                         <th>Título</th>
-                        <th>Hechos</th>
+                        <th>Contenido</th>
                         <th>País</th>
-                        <th>Fecha</th>
+                        <th>Fecha creacion</th>
                         <th>Imagen</th>
-                        <th>Activa</th>
                         <th style="width:120px;">Acciones</th>
                     </tr>
                 </thead>
@@ -347,7 +346,7 @@
 @section scripts {
     <script>
 
-        const apiUrl = "/api/Foro";
+        const apiUrl = "/api/post";
         let modalForo, modalEliminar, modalDetalle;
         let todosLosRegistros = [];
         let paginaActual = 1;
@@ -378,34 +377,30 @@
 
             let html = "";
             pagina.forEach(f => {
-                const imgSrc = f.Imagen
-                    ? (f.Imagen.startsWith('http') ? f.Imagen : '/Imagenes/' + f.Imagen)
+
+                const imgSrc = f.Image
+                    ? (f.Image.startsWith('http') ? f.Image : '/Imagenes/' + f.Image)
                     : '';
 
-                const activaBadge = f.Activa
-                    ? `<span class="badge" style="background-color:#b33030;">Activa</span>`
-                    : `<span class="badge" style="background-color:#6b7c8d;">Histórica</span>`;
-
                 html += `
-                <tr onclick="verDetalle('${f.Id}', \`${f.Titulo}\`, \`${f.Hechos}\`, '${f.Fecha}', '${imgSrc}', \`${f.Pais || ''}\`, ${f.Activa})">
-                    <td>${f.Id}</td>
-                    <td class="text-start fw-semibold">${f.Titulo}</td>
-                    <td class="text-start">${f.Hechos}</td>
-                    <td>${f.Pais || '—'}</td>
-                    <td>${f.Fecha.split("T")[0]}</td>
-                    <td>${imgSrc ? `<img src="${imgSrc}" class="preview-img">` : '—'}</td>
-                    <td>${activaBadge}</td>
-                    <td onclick="event.stopPropagation()">
-                        <button class="btn btn-sm btn-outline-warning me-1"
-                            onclick="editar(${f.Id}, \`${f.Titulo}\`, \`${f.Hechos}\`, '${f.Fecha}', '${f.Imagen || ''}', \`${f.Pais || ''}\`, ${f.Activa})">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger"
-                            onclick="eliminar(${f.Id})">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>`;
+        <tr onclick="verDetalle('${f.Id}', \`${f.Title}\`, \`${f.Content}\`, '${f.CreatedAt}', '${imgSrc}', \`${f.Country || ''}\`)">
+            <td>${f.Id}</td>
+            <td class="text-start fw-semibold">${f.Title}</td>
+            <td class="text-start">${f.Content}</td>
+            <td>${f.Country || '—'}</td>
+            <td>${f.CreatedAt ? f.CreatedAt.split("T")[0] : ''}</td>
+            <td>${imgSrc ? `<img src="${imgSrc}" class="preview-img">` : '—'}</td>
+            <td onclick="event.stopPropagation()">
+                <button class="btn btn-sm btn-outline-warning me-1"
+                    onclick="editar(${f.Id}, \`${f.Title}\`, \`${f.Content}\`, '${f.Image || ''}', \`${f.Country || ''}\`)">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger"
+                    onclick="eliminar(${f.Id})">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>`;
             });
 
             document.getElementById("tablaForo").innerHTML = html;
@@ -417,32 +412,32 @@
             const fin = Math.min(paginaActual * registrosPorPagina, todosLosRegistros.length);
 
             let html = `
-            <div class="d-flex justify-content-between align-items-center px-3 py-2" style="background:#f8f9fb; border-top:1px solid #dce3ea;">
-                <small style="color:#6b7c8d;">
-                    Mostrando ${inicio}–${fin} de ${todosLosRegistros.length} registros
-                </small>
-                <ul class="pagination pagination-sm mb-0">
-                    <li class="page-item ${paginaActual === 1 ? 'disabled' : ''}">
-                        <button class="page-link" onclick="cambiarPagina(${paginaActual - 1})">
-                            <i class="fa fa-chevron-left"></i>
-                        </button>
-                    </li>`;
+    <div class="d-flex justify-content-between align-items-center px-3 py-2" style="background:#f8f9fb; border-top:1px solid #dce3ea;">
+        <small style="color:#6b7c8d;">
+            Mostrando ${inicio}–${fin} de ${todosLosRegistros.length} registros
+        </small>
+        <ul class="pagination pagination-sm mb-0">
+            <li class="page-item ${paginaActual === 1 ? 'disabled' : ''}">
+                <button class="page-link" onclick="cambiarPagina(${paginaActual - 1})">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
+            </li>`;
 
             for (let i = 1; i <= totalPaginas; i++) {
                 html += `
-                    <li class="page-item ${i === paginaActual ? 'active' : ''}">
-                        <button class="page-link" onclick="cambiarPagina(${i})">${i}</button>
-                    </li>`;
+            <li class="page-item ${i === paginaActual ? 'active' : ''}">
+                <button class="page-link" onclick="cambiarPagina(${i})">${i}</button>
+            </li>`;
             }
 
             html += `
-                    <li class="page-item ${paginaActual === totalPaginas ? 'disabled' : ''}">
-                        <button class="page-link" onclick="cambiarPagina(${paginaActual + 1})">
-                            <i class="fa fa-chevron-right"></i>
-                        </button>
-                    </li>
-                </ul>
-            </div>`;
+            <li class="page-item ${paginaActual === totalPaginas ? 'disabled' : ''}">
+                <button class="page-link" onclick="cambiarPagina(${paginaActual + 1})">
+                    <i class="fa fa-chevron-right"></i>
+                </button>
+            </li>
+        </ul>
+    </div>`;
 
             document.getElementById("paginacion").innerHTML = html;
         }
@@ -455,18 +450,15 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function verDetalle(id, titulo, hechos, fecha, imagen, pais, activa) {
+        function verDetalle(id, titulo, contenido, fecha, imagen, pais) {
             document.getElementById("detalleTitulo").innerText = titulo;
-            document.getElementById("detalleHechos").innerText = hechos;
+            document.getElementById("detalleHechos").innerText = contenido;
             document.getElementById("detalleFecha").innerText = fecha ? fecha.split("T")[0] : '';
             document.getElementById("detallePais").innerText = pais || 'Sin especificar';
 
-            const activaBadge = document.getElementById("detalleActivaBadge");
-            activaBadge.innerText = activa ? "⚔ Conflicto Activo" : "📜 Histórico";
-            activaBadge.style.backgroundColor = activa ? "#b33030" : "#6b7c8d";
-
             const img = document.getElementById("detalleImagen");
             const sinImagen = document.getElementById("sinImagen");
+
             if (imagen) {
                 img.src = imagen;
                 img.style.display = "block";
@@ -485,40 +477,40 @@
             modalForo.show();
         }
 
-        function editar(id, titulo, hechos, fecha, imagen, pais, activa) {
+        function editar(id, titulo, contenido, imagen, pais) {
             document.getElementById("foroId").value = id;
             document.getElementById("titulo").value = titulo;
-            document.getElementById("hechos").value = hechos;
-            document.getElementById("fecha").value = fecha.split("T")[0];
+            document.getElementById("hechos").value = contenido;
             document.getElementById("imagen").value = imagen || '';
             document.getElementById("pais").value = pais || '';
-            document.getElementById("activa").checked = activa;
             document.getElementById("modalTitulo").innerText = "Editar Publicación";
             modalForo.show();
         }
 
         function guardarForo() {
             const id = document.getElementById("foroId").value;
-            const foro = {
-                Titulo: document.getElementById("titulo").value,
-                Hechos: document.getElementById("hechos").value,
-                Fecha: document.getElementById("fecha").value,
-                Imagen: document.getElementById("imagen").value,
-                Pais: document.getElementById("pais").value,
-                Activa: document.getElementById("activa").checked
+
+            const post = {
+                Title: document.getElementById("titulo").value,
+                Content: document.getElementById("hechos").value,
+                Image: document.getElementById("imagen").value,
+                Country: document.getElementById("pais").value,
+                UserId: 1,
+                CommunityId: 1,
+                MainCategoryId: 1
             };
 
             if (id) {
                 fetch(apiUrl + "?id=" + id, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(foro)
+                    body: JSON.stringify(post)
                 }).then(() => { modalForo.hide(); cargarForo(); });
             } else {
                 fetch(apiUrl, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(foro)
+                    body: JSON.stringify(post)
                 }).then(() => { modalForo.hide(); cargarForo(); });
             }
         }
@@ -538,11 +530,8 @@
             document.getElementById("foroId").value = "";
             document.getElementById("titulo").value = "";
             document.getElementById("hechos").value = "";
-            document.getElementById("fecha").value = "";
             document.getElementById("imagen").value = "";
             document.getElementById("pais").value = "";
-            document.getElementById("activa").checked = false;
         }
-
     </script>
 }

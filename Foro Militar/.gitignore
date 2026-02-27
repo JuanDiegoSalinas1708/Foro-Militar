@@ -1,0 +1,25 @@
+﻿# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build
+bin/
+obj/
+
+# Log de BD — se regenera solo
+*.ldf
+
+# El .mdf SÍ se sube
+!App_Data/*.mdf
+```
+
+---
+
+## Paso 4 — Subir a GitHub desde Visual Studio
+```
+Git → Create Git Repository
+→ Conectar con tu cuenta GitHub
+→ Nombre del repo: Foro-Militar
+→ Public o Private
+→ Create and Push

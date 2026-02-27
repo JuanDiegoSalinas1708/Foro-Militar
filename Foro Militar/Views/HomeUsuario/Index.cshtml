@@ -1,0 +1,836 @@
+﻿@{
+    ViewBag.Title = "Explorar Foros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* ── Hero usuario ── */
+    .usuario-hero {
+        background: linear-gradient(135deg, #1a2a3a 0%, #2c4a6e 100%);
+        padding: 48px 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .usuario-hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(74,127,165,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .usuario-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: 5%;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+    .usuario-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .usuario-hero h1 {
+        color: #ffffff;
+        font-weight: 800;
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+
+        .usuario-hero h1 span {
+            color: #4a7fa5;
+        }
+
+    .usuario-hero p {
+        color: #9ab0c4;
+        font-size: 0.95rem;
+        margin-bottom: 28px;
+        max-width: 500px;
+    }
+
+    /* Barra de búsqueda */
+    .search-bar {
+        display: flex;
+        gap: 10px;
+        max-width: 620px;
+        flex-wrap: wrap;
+    }
+
+    .search-input-wrap {
+        flex: 1;
+        position: relative;
+        min-width: 260px;
+    }
+
+        .search-input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7c8d;
+            font-size: 0.9rem;
+        }
+
+    .search-input {
+        width: 100%;
+        padding: 12px 14px 12px 38px;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        background: rgba(255,255,255,0.1);
+        color: #ffffff;
+        outline: none;
+        border: 1px solid rgba(255,255,255,0.15);
+        transition: all 0.2s;
+    }
+
+        .search-input::placeholder {
+            color: #6b7c8d;
+        }
+
+        .search-input:focus {
+            background: rgba(255,255,255,0.15);
+            border-color: #4a7fa5;
+            box-shadow: 0 0 0 3px rgba(74,127,165,0.2);
+        }
+
+    .filter-select {
+        padding: 12px 16px;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 8px;
+        background: rgba(255,255,255,0.1);
+        color: #9ab0c4;
+        font-size: 0.88rem;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .filter-select:focus {
+            border-color: #4a7fa5;
+        }
+
+        .filter-select option {
+            background: #1a2a3a;
+            color: #fff;
+        }
+
+    /* Stats mini en hero */
+    .hero-stats {
+        display: flex;
+        gap: 24px;
+        margin-top: 28px;
+        flex-wrap: wrap;
+    }
+
+    .hero-stat {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #9ab0c4;
+        font-size: 0.82rem;
+    }
+
+        .hero-stat strong {
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+    /* ── Body ── */
+    .usuario-body {
+        padding: 32px 40px;
+        background: #f0f2f5;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #6b7c8d;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .resultado-count {
+        font-size: 0.78rem;
+        color: #9ab0c4;
+        background: #fff;
+        border: 1px solid #dce3ea;
+        padding: 4px 12px;
+        border-radius: 20px;
+    }
+
+    /* ── Foros grid ── */
+    .foros-usuario-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 36px;
+    }
+
+    .foro-usuario-card {
+        background: #ffffff;
+        border-radius: 14px;
+        border: 1px solid #e8eef4;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .foro-usuario-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+            text-decoration: none;
+        }
+
+    .foro-card-banner {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        position: relative;
+    }
+
+        .foro-card-banner .foro-categoria-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+    .foro-card-content {
+        padding: 18px 20px;
+        flex: 1;
+    }
+
+        .foro-card-content h5 {
+            color: #1a2a3a;
+            font-weight: 700;
+            margin: 0 0 6px;
+            font-size: 1rem;
+        }
+
+        .foro-card-content p {
+            color: #6b7c8d;
+            font-size: 0.8rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+    .foro-card-footer-u {
+        padding: 12px 20px;
+        border-top: 1px solid #f0f2f5;
+        background: #fafbfc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .foro-card-footer-u .stats-row-u {
+            display: flex;
+            gap: 14px;
+        }
+
+    .foro-stat-u {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.75rem;
+        color: #9ab0c4;
+    }
+
+        .foro-stat-u strong {
+            color: #1a2a3a;
+        }
+
+    .btn-entrar {
+        background: #2c4a6e;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 14px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: background 0.2s;
+    }
+
+        .btn-entrar:hover {
+            background: #3a5a8e;
+            color: #fff;
+        }
+
+    /* Foro bloqueado */
+    .foro-usuario-card.bloqueado {
+        opacity: 0.55;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    /* ── Publicaciones recientes ── */
+    .pub-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 16px;
+    }
+
+    .pub-card {
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #e8eef4;
+        padding: 16px 18px;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+        .pub-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+    .pub-card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .pub-foro-badge {
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 20px;
+        letter-spacing: 0.04em;
+    }
+
+    .pub-activa-badge {
+        font-size: 0.65rem;
+        background: #fdeaea;
+        color: #b33030;
+        padding: 3px 8px;
+        border-radius: 20px;
+        font-weight: 600;
+        margin-left: auto;
+    }
+
+    .pub-card h6 {
+        color: #1a2a3a;
+        font-weight: 700;
+        margin: 0 0 6px;
+        font-size: 0.88rem;
+    }
+
+    .pub-card p {
+        color: #6b7c8d;
+        font-size: 0.76rem;
+        margin: 0;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .pub-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        font-size: 0.72rem;
+        color: #9ab0c4;
+    }
+
+    /* Sin resultados */
+    .sin-resultados {
+        text-align: center;
+        padding: 48px 20px;
+        color: #9ab0c4;
+        grid-column: 1 / -1;
+    }
+
+        .sin-resultados i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .sin-resultados p {
+            font-size: 0.88rem;
+        }
+
+    /* Modal publicación */
+    .modal-pub .modal-content {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+
+    .modal-pub .modal-header {
+        background: #2c4a6e;
+        color: #fff;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .modal-pub .modal-footer {
+        background: #f8f9fb;
+        border-radius: 0 0 12px 12px;
+    }
+
+    /* Nueva publicación btn */
+    .btn-nueva-pub {
+        background: #4a7fa5;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.2s;
+        cursor: pointer;
+    }
+
+        .btn-nueva-pub:hover {
+            background: #3a6a8e;
+        }
+
+    .input-user {
+        border-color: #dce3ea;
+        border-radius: 7px;
+    }
+
+        .input-user:focus {
+            border-color: #4a7fa5;
+            box-shadow: 0 0 0 0.2rem rgba(74,127,165,0.15);
+        }
+</style>
+
+<!-- Hero -->
+<div class="usuario-hero">
+    <div class="usuario-hero-content">
+        <h1>Explora los <span>Foros</span></h1>
+        <p>Descubre, busca y participa en los foros disponibles. Lee sobre conflictos, historia y más.</p>
+
+        <!-- Barra búsqueda -->
+        <div class="search-bar">
+            <div class="search-input-wrap">
+                <i class="fa fa-search"></i>
+                <input type="text" class="search-input" id="searchInput"
+                       placeholder="Buscar foros o publicaciones...">
+            </div>
+            <select class="filter-select" id="filtroCategoria">
+                <option value="">Todas las categorías</option>
+                <option value="militar">Militar</option>
+                <option value="deportes">Deportes</option>
+                <option value="tecnologia">Tecnología</option>
+                <option value="politica">Política</option>
+            </select>
+        </div>
+
+        <!-- Stats -->
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <strong id="heroTotal">—</strong>
+                <span>publicaciones</span>
+            </div>
+            <div class="hero-stat">
+                <strong id="heroActivos" style="color:#ff6b6b;">—</strong>
+                <span>conflictos activos</span>
+            </div>
+            <div class="hero-stat">
+                <strong>1</strong>
+                <span>foros disponibles</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="usuario-body">
+
+    <!-- Foros disponibles -->
+    <div class="section-header">
+        <div class="section-title"><i class="fa fa-layer-group"></i> Foros Disponibles</div>
+        <span class="resultado-count" id="countForos">Cargando...</span>
+    </div>
+
+    <div class="foros-usuario-grid" id="forosGrid">
+
+        <!-- Foro Militar -->
+        <div class="foro-usuario-card" data-categoria="militar" data-nombre="Foro Militar">
+            <div class="foro-card-banner" style="background: linear-gradient(135deg, #1a2a3a, #2c4a6e);">
+                <i class="fa-solid fa-shield-halved" style="color:#4a7fa5;"></i>
+                <span class="foro-categoria-tag">Militar</span>
+            </div>
+            <div class="foro-card-content">
+                <h5>Foro Militar</h5>
+                <p>Conflictos armados, guerras históricas y eventos bélicos alrededor del mundo.</p>
+            </div>
+            <div class="foro-card-footer-u">
+                <div class="stats-row-u">
+                    <div class="foro-stat-u">
+                        <i class="fa fa-file-alt"></i>
+                        <strong id="countMilitar">—</strong> publicaciones
+                    </div>
+                    <div class="foro-stat-u">
+                        <i class="fa fa-fire" style="color:#b33030;"></i>
+                        <strong id="activosMilitar" style="color:#b33030;">—</strong> activos
+                    </div>
+                </div>
+                <button class="btn-entrar" onclick="abrirModalPub('Militar')">
+                    <i class="fa fa-plus"></i> Publicar
+                </button>
+            </div>
+        </div>
+
+        <!-- Deportes (próximamente) -->
+        <div class="foro-usuario-card bloqueado" data-categoria="deportes" data-nombre="Foro Deportes">
+            <div class="foro-card-banner" style="background: linear-gradient(135deg, #1a3a1a, #2a6e2a);">
+                <i class="fa fa-futbol" style="color:#4aad4a;"></i>
+                <span class="foro-categoria-tag">Deportes</span>
+            </div>
+            <div class="foro-card-content">
+                <h5>Foro Deportes <span style="font-size:0.7rem; background:#f0f2f5; color:#9ab0c4; padding:2px 8px; border-radius:20px; font-weight:700;">Próximamente</span></h5>
+                <p>Noticias, resultados y análisis del mundo deportivo internacional.</p>
+            </div>
+            <div class="foro-card-footer-u">
+                <div class="stats-row-u">
+                    <div class="foro-stat-u"><i class="fa fa-lock"></i> No disponible</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tecnología (próximamente) -->
+        <div class="foro-usuario-card bloqueado" data-categoria="tecnologia" data-nombre="Foro Tecnología">
+            <div class="foro-card-banner" style="background: linear-gradient(135deg, #2a1a3a, #6a2a9e);">
+                <i class="fa fa-microchip" style="color:#b47ae5;"></i>
+                <span class="foro-categoria-tag">Tecnología</span>
+            </div>
+            <div class="foro-card-content">
+                <h5>Foro Tecnología <span style="font-size:0.7rem; background:#f0f2f5; color:#9ab0c4; padding:2px 8px; border-radius:20px; font-weight:700;">Próximamente</span></h5>
+                <p>Tendencias, innovaciones y avances tecnológicos globales.</p>
+            </div>
+            <div class="foro-card-footer-u">
+                <div class="stats-row-u">
+                    <div class="foro-stat-u"><i class="fa fa-lock"></i> No disponible</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Política (próximamente) -->
+        <div class="foro-usuario-card bloqueado" data-categoria="politica" data-nombre="Foro Política">
+            <div class="foro-card-banner" style="background: linear-gradient(135deg, #3a2a1a, #9e6a1a);">
+                <i class="fa fa-landmark" style="color:#e5b44a;"></i>
+                <span class="foro-categoria-tag">Política</span>
+            </div>
+            <div class="foro-card-content">
+                <h5>Foro Política <span style="font-size:0.7rem; background:#f0f2f5; color:#9ab0c4; padding:2px 8px; border-radius:20px; font-weight:700;">Próximamente</span></h5>
+                <p>Geopolítica, análisis electoral y relaciones internacionales.</p>
+            </div>
+            <div class="foro-card-footer-u">
+                <div class="stats-row-u">
+                    <div class="foro-stat-u"><i class="fa fa-lock"></i> No disponible</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Publicaciones recientes -->
+    <div class="section-header">
+        <div class="section-title"><i class="fa fa-clock"></i> Publicaciones Recientes</div>
+        <span class="resultado-count" id="countPubs">Cargando...</span>
+    </div>
+
+    <div class="pub-grid" id="pubGrid">
+        <div class="sin-resultados">
+            <i class="fa fa-spinner fa-spin"></i>
+            <p>Cargando publicaciones...</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal nueva publicación -->
+<div class="modal fade modal-pub" id="modalNuevaPub" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa fa-plus me-2"></i>Nueva Publicación — <span id="modalForoNombre"></span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" style="background:#f8f9fb;">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" style="color:#1a2a3a; font-size:0.85rem;">Título</label>
+                    <input type="text" id="pubTitulo" class="form-control input-user" placeholder="Título de la publicación">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" style="color:#1a2a3a; font-size:0.85rem;">Descripción / Hechos</label>
+                    <textarea id="pubHechos" class="form-control input-user" rows="4" placeholder="Describe el conflicto o evento..."></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold" style="color:#1a2a3a; font-size:0.85rem;">Fecha</label>
+                        <input type="date" id="pubFecha" class="form-control input-user">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold" style="color:#1a2a3a; font-size:0.85rem;">País(es)</label>
+                        <input type="text" id="pubPais" class="form-control input-user" placeholder="Ej: Colombia, Venezuela">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold" style="color:#1a2a3a; font-size:0.85rem;">Imagen (URL)</label>
+                    <input type="text" id="pubImagen" class="form-control input-user" placeholder="https://...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-sm" style="background:#4a7fa5; color:#fff; border:none; border-radius:6px; padding:6px 20px; font-weight:600;"
+                        onclick="guardarPubUsuario()">
+                    <i class="fa fa-paper-plane me-1"></i> Publicar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal ver detalle publicación -->
+<div class="modal fade modal-pub" id="modalVerPub" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verTitulo"></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0" style="background:#f8f9fb;">
+                <div class="row g-0">
+                    <div class="col-md-5 d-flex align-items-center justify-content-center" style="background:#1a2a3a; min-height:240px;">
+                        <img id="verImagen" src="" alt=""
+                             style="max-width:100%; max-height:280px; object-fit:contain; padding:16px;"
+                             onerror="this.style.display='none'">
+                        <div id="verSinImg" style="display:none; color:#6b7c8d; text-align:center; padding:20px;">
+                            <i class="fa fa-image fa-3x mb-2"></i><br>Sin imagen
+                        </div>
+                    </div>
+                    <div class="col-md-7 p-4">
+                        <div class="d-flex gap-2 mb-3 flex-wrap">
+                            <span class="badge" style="background:#2c4a6e; font-size:0.75rem;">
+                                <i class="fa fa-calendar me-1"></i><span id="verFecha"></span>
+                            </span>
+                            <span class="badge" style="background:#3a6a3a; font-size:0.75rem;">
+                                <i class="fa fa-map-marker me-1"></i><span id="verPais"></span>
+                            </span>
+                            <span id="verActivaBadge" class="badge" style="font-size:0.75rem;"></span>
+                        </div>
+                        <h6 class="fw-bold mb-2" style="color:#2c4a6e;">Descripción</h6>
+                        <p id="verHechos" style="color:#1a2a3a; line-height:1.7; text-align:justify; font-size:0.88rem;"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>const apiUrl  = '/api/Foro';
+    let modalPub, modalVer;
+    let todasLasPubs = [];
+
+    document.addEventListener('DOMContentLoaded', function () {
+        modalPub = new bootstrap.Modal(document.getElementById('modalNuevaPub'));
+        modalVer = new bootstrap.Modal(document.getElementById('modalVerPub'));
+
+        cargarDatos();
+
+        // Búsqueda en tiempo real
+        document.getElementById('searchInput').addEventListener('input', filtrar);
+        document.getElementById('filtroCategoria').addEventListener('change', filtrar);
+    });
+
+    function cargarDatos() {
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(data => {
+                todasLasPubs = data;
+
+                // Stats hero
+                document.getElementById('heroTotal').innerText   = data.length;
+                document.getElementById('heroActivos').innerText = data.filter(f => f.Activa).length;
+
+                // Stats foro militar
+                document.getElementById('countMilitar').innerText   = data.length;
+                document.getElementById('activosMilitar').innerText = data.filter(f => f.Activa).length;
+
+                // Publicaciones recientes
+                renderPubs(data);
+            });
+    }
+
+    function renderPubs(data) {
+        const grid = document.getElementById('pubGrid');
+        document.getElementById('countPubs').innerText = data.length + ' resultados';
+
+        if (data.length === 0) {
+            grid.innerHTML = `
+                <div class="sin-resultados">
+                    <i class="fa fa-search"></i>
+                    <p>No se encontraron publicaciones con ese criterio.</p>
+                </div>`;
+            return;
+        }
+
+        grid.innerHTML = '';
+        const recientes = [...data].reverse().slice(0, 12);
+
+        recientes.forEach(f => {
+            const imgSrc = f.Imagen
+                ? (f.Imagen.startsWith('http') ? f.Imagen : '/Imagenes/' + f.Imagen)
+                : '';
+            const fecha = f.Fecha ? f.Fecha.split('T')[0] : '';
+
+            const card = document.createElement('div');
+            card.className = 'pub-card';
+            card.innerHTML = `
+                <div class="pub-card-header">
+                    <span class="pub-foro-badge" style="background:#eef4fa; color:#2c4a6e;">
+                        <i class="fa-solid fa-shield-halved me-1"></i>Militar
+                    </span>
+                    ${f.Activa ? '<span class="pub-activa-badge">⚔ Activo</span>' : ''}
+                </div>
+                <h6>${f.Titulo}</h6>
+                <p>${f.Hechos}</p>
+                <div class="pub-card-footer">
+                    <span><i class="fa fa-calendar me-1"></i>${fecha}</span>
+                    <span><i class="fa fa-map-marker me-1"></i>${f.Pais || 'Sin país'}</span>
+                </div>
+            `;
+            card.onclick = () => verDetallePub(f.Titulo, f.Hechos, fecha, imgSrc, f.Pais, f.Activa);
+            grid.appendChild(card);
+        });
+    }
+
+    function filtrar() {
+        const texto    = document.getElementById('searchInput').value.toLowerCase().trim();
+        const categoria = document.getElementById('filtroCategoria').value;
+
+        // Filtrar foros
+        const foroCards = document.querySelectorAll('.foro-usuario-card');
+        let forosVisibles = 0;
+        foroCards.forEach(card => {
+            const nombre = card.dataset.nombre?.toLowerCase() || '';
+            const cat    = card.dataset.categoria || '';
+            const matchTexto = !texto || nombre.includes(texto);
+            const matchCat   = !categoria || cat === categoria;
+            card.style.display = (matchTexto && matchCat) ? '' : 'none';
+            if (matchTexto && matchCat) forosVisibles++;
+        });
+        document.getElementById('countForos').innerText = forosVisibles + ' foros';
+
+        // Filtrar publicaciones
+        const filtradas = todasLasPubs.filter(f => {
+            const matchTexto = !texto ||
+                (f.Titulo || '').toLowerCase().includes(texto) ||
+                (f.Hechos || '').toLowerCase().includes(texto) ||
+                (f.Pais   || '').toLowerCase().includes(texto);
+            const matchCat = !categoria || categoria === 'militar';
+            return matchTexto && matchCat;
+        });
+
+        renderPubs(filtradas);
+    }
+
+    function abrirModalPub(foro) {
+        document.getElementById('modalForoNombre').innerText = foro;
+        document.getElementById('pubTitulo').value  = '';
+        document.getElementById('pubHechos').value  = '';
+        document.getElementById('pubFecha').value   = '';
+        document.getElementById('pubPais').value    = '';
+        document.getElementById('pubImagen').value  = '';
+        modalPub.show();
+    }
+
+    function guardarPubUsuario() {
+        const foro = {
+            Titulo:  document.getElementById('pubTitulo').value,
+            Hechos:  document.getElementById('pubHechos').value,
+            Fecha:   document.getElementById('pubFecha').value,
+            Pais:    document.getElementById('pubPais').value,
+            Imagen:  document.getElementById('pubImagen').value,
+            Activa:  false
+        };
+
+        if (!foro.Titulo || !foro.Hechos || !foro.Fecha) {
+            alert('Por favor completa Título, Hechos y Fecha.');
+            return;
+        }
+
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(foro)
+        }).then(res => {
+            if (res.ok) {
+                modalPub.hide();
+                cargarDatos();
+            }
+        });
+    }
+
+    function verDetallePub(titulo, hechos, fecha, imagen, pais, activa) {
+        document.getElementById('verTitulo').innerText = titulo;
+        document.getElementById('verHechos').innerText = hechos;
+        document.getElementById('verFecha').innerText  = fecha;
+        document.getElementById('verPais').innerText   = pais || 'Sin especificar';
+
+        const badge = document.getElementById('verActivaBadge');
+        badge.innerText = activa ? '⚔ Conflicto Activo' : '📜 Histórico';
+        badge.style.backgroundColor = activa ? '#b33030' : '#6b7c8d';
+
+        const img = document.getElementById('verImagen');
+        const sin = document.getElementById('verSinImg');
+        if (imagen) { img.src = imagen; img.style.display = 'block'; sin.style.display = 'none'; }
+        else        { img.style.display = 'none'; sin.style.display = 'block'; }
+
+        modalVer.show();
+    }</script>
+}

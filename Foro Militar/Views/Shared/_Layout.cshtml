@@ -241,6 +241,25 @@
                 Gestionar Información
             </a>
 
+
+
+            <div class="sidebar-section">Administración</div>
+
+            <a href="@Url.Action("Index", "Admin")"
+               class="nav-item-sidebar @(ViewContext.RouteData.Values["controller"].ToString() == "Admin" ? "active" : "")">
+                <span class="nav-icon"><i class="fa fa-gauge"></i></span>
+                Panel Admin
+            </a>
+
+
+            <div class="sidebar-section">Usuario</div>
+
+            <a href="@Url.Action("Index", "HomeUsuario")"
+               class="nav-item-sidebar @(ViewContext.RouteData.Values["controller"].ToString() == "HomeUsuario" ? "active" : "")">
+                <span class="nav-icon"><i class="fa fa-users"></i></span>
+                Vista Usuario
+            </a>
+
         </nav>
 
         <div class="sidebar-footer">
@@ -291,6 +310,11 @@
             })
             .catch(() => {
                 document.getElementById('sidebar-badge').style.display = 'none';
+
+                if (path.includes('admin')) document.getElementById('nav-admin')?.classList.add('active');
+                else if (path.includes('foroview')) document.getElementById('nav-foro')?.classList.add('active');
+                else if (path.includes('globo')) document.getElementById('nav-globo')?.classList.add('active');
+                else document.getElementById('nav-inicio')?.classList.add('active');
             });
     </script>
 

@@ -44,5 +44,7 @@ namespace Foro.Entities.Models
         public virtual ICollection<UserCommunity> UserCommunities { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Vote> Votes { get; set; }
+
+
     }
 }

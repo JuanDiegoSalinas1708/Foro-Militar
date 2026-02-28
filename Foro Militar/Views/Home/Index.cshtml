@@ -360,38 +360,58 @@
 
 @section scripts {
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        fetch('/api/Foro')
-            .then(res => res.json())
-            .then(data => {
-                animarContador('statTotal', data.length);
+        document.addEventListener('DOMContentLoaded', function () {
 
-                const activos = data.filter(f => f.Activa === true).length;
-                animarContador('statActivos', activos);
+            fetch('/api/Post')
+                .then(res => res.json())
+                .then(data => {
 
-                const paises = new Set(
-                    data.map(f => (f.Pais || '').trim().toLowerCase()).filter(p => p !== '')
-                );
-                animarContador('statPaises', paises.size);
+                    // Total de posts
+                    animarContador('statTotal', data.length);
 
-                if (data.length > 0) {
-                    const ultimo = data[data.length - 1];
-                    document.getElementById('ultimoConflicto').innerText = ultimo.Titulo;
-                    document.getElementById('ultimoConflicto').style.color = '#1a2a3a';
-                    document.getElementById('ultimaFecha').innerText = ultimo.Fecha ? ultimo.Fecha.split('T')[0] : '';
-                }
-            });
-    });
+                    // Activos = los que NO están eliminados
+                    const activos = data.filter(p => p.IsDeleted === false).length;
+                    animarContador('statActivos', activos);
 
-    function animarContador(id, objetivo) {
-        const el = document.getElementById(id);
-        let actual = 0;
-        const paso = Math.ceil(objetivo / 30);
-        const intervalo = setInterval(() => {
-            actual = Math.min(actual + paso, objetivo);
-            el.innerText = actual;
-            if (actual >= objetivo) clearInterval(intervalo);
-        }, 40);
-    }
+                    // Países únicos
+                    const paises = new Set(
+                        data
+                            .map(p => (p.Country || '').trim().toLowerCase())
+                            .filter(p => p !== '')
+                    );
+
+                    animarContador('statPaises', paises.size);
+
+                    // Último post creado
+                    if (data.length > 0) {
+                        const ultimo = data
+                            .sort((a, b) => new Date(b.CreatedAt) - new Date(a.CreatedAt))[0];
+
+                        document.getElementById('ultimoConflicto').innerText = ultimo.Title;
+                        document.getElementById('ultimoConflicto').style.color = '#1a2a3a';
+
+                        document.getElementById('ultimaFecha').innerText =
+                            ultimo.CreatedAt
+                                ? ultimo.CreatedAt.split('T')[0]
+                                : '';
+                    }
+                })
+                .catch(err => console.error('Error cargando posts:', err));
+        });
+
+        function animarContador(id, objetivo) {
+            const el = document.getElementById(id);
+            let actual = 0;
+            const paso = Math.ceil(objetivo / 30);
+
+            const intervalo = setInterval(() => {
+                actual = Math.min(actual + paso, objetivo);
+                el.innerText = actual;
+
+                if (actual >= objetivo)
+                    clearInterval(intervalo);
+
+            }, 40);
+        }
     </script>
 }

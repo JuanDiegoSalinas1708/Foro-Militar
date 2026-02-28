@@ -326,387 +326,333 @@
 
 @section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>// ── Coordenadas por país ──────────────────────────────────────────────
-const coordenadasPaises = {
-    "siria": { lat: 35.0, lon: 38.0 },
-    "ukraine": { lat: 49.0, lon: 32.0 },
-    "ucrania": { lat: 49.0, lon: 32.0 },
-    "yemen": { lat: 15.5, lon: 48.0 },
-    "sudan": { lat: 15.0, lon: 30.0 },
-    "sudán": { lat: 15.0, lon: 30.0 },
-    "mali": { lat: 17.0, lon: -4.0 },
-    "myanmar": { lat: 19.0, lon: 96.0 },
-    "somalia": { lat: 6.0, lon: 46.0 },
-    "etiopia": { lat: 9.0, lon: 40.0 },
-    "etiopía": { lat: 9.0, lon: 40.0 },
-    "nigeria": { lat: 9.0, lon: 8.0 },
-    "afganistan": { lat: 33.0, lon: 65.0 },
-    "afganistán": { lat: 33.0, lon: 65.0 },
-    "irak": { lat: 33.0, lon: 44.0 },
-    "iraq": { lat: 33.0, lon: 44.0 },
-    "israel": { lat: 31.5, lon: 34.8 },
-    "gaza": { lat: 31.4, lon: 34.3 },
-    "palestina": { lat: 31.9, lon: 35.2 },
-    "colombia": { lat: 4.0, lon: -72.0 },
-    "mexico": { lat: 23.0, lon: -102.0 },
-    "méxico": { lat: 23.0, lon: -102.0 },
-    "rusia": { lat: 61.0, lon: 105.0 },
-    "iran": { lat: 32.0, lon: 53.0 },
-    "irán": { lat: 32.0, lon: 53.0 },
-    "libano": { lat: 33.8, lon: 35.8 },
-    "líbano": { lat: 33.8, lon: 35.8 },
-    "libia": { lat: 26.0, lon: 17.0 },
-    "burkina faso": { lat: 12.3, lon: -1.5 },
-    "niger": { lat: 17.6, lon: 8.1 },
-    "níger": { lat: 17.6, lon: 8.1 },
-    "republica centroafricana": { lat: 7.0, lon: 21.0 },
-    "república centroafricana": { lat: 7.0, lon: 21.0 },
-    "republica democratica del congo": { lat: -2.5, lon: 23.7 },
-    "república democrática del congo": { lat: -2.5, lon: 23.7 },
-    "congo": { lat: -4.0, lon: 23.5 },
-    "haiti": { lat: 19.0, lon: -72.3 },
-    "haití": { lat: 19.0, lon: -72.3 },
-    "pakistan": { lat: 30.0, lon: 70.0 },
-    "pakistán": { lat: 30.0, lon: 70.0 },
-    "india": { lat: 20.0, lon: 77.0 },
-    "china": { lat: 35.0, lon: 105.0 },
-    "taiwan": { lat: 23.7, lon: 121.0 },
-    "taiwán": { lat: 23.7, lon: 121.0 },
-    "ecuador": { lat: -1.8, lon: -78.2 },
-    "ecuador": { lat: -1.8, lon: -78.2 },
-    "venezuela": { lat: 7.0, lon: -66.0 },
-    "indonesia": { lat: -5.0, lon: 120.0 },
-    "peru": { lat: -9.2, lon: -75.0 },
-    "perú": { lat: -9.2, lon: -75.0 },
-    "honduras": { lat: 15.2, lon: -86.2 },
-    "el salvador": { lat: 13.8, lon: -88.9 },
-    "etiopia": { lat: 9.0, lon: 40.0 },
-    "etiopía": { lat: 9.0, lon: 40.0 },
-    "somalia": { lat: 6.0, lon: 46.0 },
-    "mozambique": { lat: -18.7, lon: 35.5 },
-    "camerun": { lat: 5.7, lon: 12.7 },
-    "camerún": { lat: 5.7, lon: 12.7 },
-    "libia": { lat: 26.0, lon: 17.0 },
-    "republica centroafricana": { lat: 7.0, lon: 21.0 },
-    "república centroafricana": { lat: 7.0, lon: 21.0 },
-     "israel": { lat: 31.5, lon: 34.8 },
-    "palestina": { lat: 31.9, lon: 35.2 },
-    "birmania": { lat: 19.0, lon: 96.0 },
-    "myanmar": { lat: 19.0, lon: 96.0 },
-    "siria": { lat: 35.0, lon: 38.0 },
-    "yemen": { lat: 15.5, lon: 48.0 },
-    "afganistan": { lat: 33.0, lon: 65.0 },
-    "afganistán": { lat: 33.0, lon: 65.0 },
-    "india-pakistan": { lat: 27.0, lon: 70.0 },
-    "india": { lat: 20.0, lon: 77.0 },
-    "pakistan": { lat: 30.0, lon: 70.0 },
-    "pakistán": { lat: 30.0, lon: 70.0 },
-    "filipinas": { lat: 13.0, lon: 122.0 },
-    "irak": { lat: 33.0, lon: 44.0 },
-    "iraq": { lat: 33.0, lon: 44.0 },
-    "turquia": { lat: 39.0, lon: 35.0 },
-    "turquía": { lat: 39.0, lon: 35.0 },
-    "armenia": { lat: 40.1, lon: 45.0 },
-    "azerbaiyan": { lat: 40.4, lon: 47.7 },
-    "azerbaiyán": { lat: 40.4, lon: 47.7 },
-    "azerbaijan": { lat: 40.4, lon: 47.7 },
-    "moldavia": { lat: 47.2, lon: 28.6 },
-    "moldova": { lat: 47.2, lon: 28.6 },
-    "kosovo": { lat: 42.6, lon: 21.0 }
-};
+    <script>
+        // ── Coordenadas por país ──────────────────────────────────────────────
+        const coordenadasPaises = {
+            "siria": { lat: 35.0, lon: 38.0 },
+            "ukraine": { lat: 49.0, lon: 32.0 },
+            "ucrania": { lat: 49.0, lon: 32.0 },
+            "yemen": { lat: 15.5, lon: 48.0 },
+            "sudan": { lat: 15.0, lon: 30.0 },
+            "sudán": { lat: 15.0, lon: 30.0 },
+            "mali": { lat: 17.0, lon: -4.0 },
+            "myanmar": { lat: 19.0, lon: 96.0 },
+            "somalia": { lat: 6.0, lon: 46.0 },
+            "etiopia": { lat: 9.0, lon: 40.0 },
+            "etiopía": { lat: 9.0, lon: 40.0 },
+            "nigeria": { lat: 9.0, lon: 8.0 },
+            "afganistan": { lat: 33.0, lon: 65.0 },
+            "afganistán": { lat: 33.0, lon: 65.0 },
+            "irak": { lat: 33.0, lon: 44.0 },
+            "iraq": { lat: 33.0, lon: 44.0 },
+            "israel": { lat: 31.5, lon: 34.8 },
+            "gaza": { lat: 31.4, lon: 34.3 },
+            "palestina": { lat: 31.9, lon: 35.2 },
+            "somalia": { lat: 6.0, lon: 46.0 },
+            "mozambique": { lat: -18.7, lon: 35.5 },
+            "camerun": { lat: 5.7, lon: 12.7 },
+            "camerún": { lat: 5.7, lon: 12.7 },
+            "libia": { lat: 26.0, lon: 17.0 },
+            "república centroafricana": { lat: 7.0, lon: 21.0 },
+            "israel": { lat: 31.5, lon: 34.8 },
+            "palestina": { lat: 31.9, lon: 35.2 },
+            "birmania": { lat: 19.0, lon: 96.0 },
+            "myanmar": { lat: 19.0, lon: 96.0 },
+            "siria": { lat: 35.0, lon: 38.0 },
+            "yemen": { lat: 15.5, lon: 48.0 },
+            "afganistan": { lat: 33.0, lon: 65.0 },
+            "afganistán": { lat: 33.0, lon: 65.0 },
+            "india-pakistan": { lat: 27.0, lon: 70.0 },
+            "india": { lat: 20.0, lon: 77.0 },
+            "pakistan": { lat: 30.0, lon: 70.0 },
+            "pakistán": { lat: 30.0, lon: 70.0 },
+            "filipinas": { lat: 13.0, lon: 122.0 },
+            "irak": { lat: 33.0, lon: 44.0 },
+            "iraq": { lat: 33.0, lon: 44.0 },
+            "turquia": { lat: 39.0, lon: 35.0 },
+            "armenia": { lat: 40.1, lon: 45.0 },
+            "azerbaiyan": { lat: 40.4, lon: 47.7 },
+            "moldavia": { lat: 47.2, lon: 28.6 },
+            "moldova": { lat: 47.2, lon: 28.6 },
+            "kosovo": { lat: 42.6, lon: 21.0 },
+            "colombia": { lat: 4.0, lon: -72.0 },
+            "mexico": { lat: 23.0, lon: -102.0 },
+            "rusia": { lat: 61.0, lon: 105.0 },
+            "irán": { lat: 32.0, lon: 53.0 },
+            "libano": { lat: 33.8, lon: 35.8 },
+            "libia": { lat: 26.0, lon: 17.0 },
+            "burkina faso": { lat: 12.3, lon: -1.5 },
+            "niger": { lat: 17.6, lon: 8.1 },
+            "níger": { lat: 17.6, lon: 8.1 },
+            "republica democratica del congo": { lat: -2.5, lon: 23.7 },
+            "congo": { lat: -4.0, lon: 23.5 },
+            "haiti": { lat: 19.0, lon: -72.3 },
+            "haití": { lat: 19.0, lon: -72.3 },
+            "pakistan": { lat: 30.0, lon: 70.0 },
+            "pakistán": { lat: 30.0, lon: 70.0 },
+            "india": { lat: 20.0, lon: 77.0 },
+            "china": { lat: 35.0, lon: 105.0 },
+            "taiwán": { lat: 23.7, lon: 121.0 },
+            "ecuador": { lat: -1.8, lon: -78.2 },
+            "venezuela": { lat: 7.0, lon: -66.0 },
+            "indonesia": { lat: -5.0, lon: 120.0 },
+            "peru": { lat: -9.2, lon: -75.0 },
+            "perú": { lat: -9.2, lon: -75.0 },
+            "honduras": { lat: 15.2, lon: -86.2 },
+            "el salvador": { lat: 13.8, lon: -88.9 },
+        };
 
-function obtenerCoordenadas(pais) {
-    if (!pais) return null;
-    const key = pais.toLowerCase().trim();
-    if (coordenadasPaises[key]) return coordenadasPaises[key];
-    // Buscar coincidencia parcial
-    for (const [nombre, coords] of Object.entries(coordenadasPaises)) {
-        if (key.includes(nombre) || nombre.includes(key)) return coords;
-    }
-    return null;
-}
-
-function latLonToVector3(lat, lon, radio) {
-    const phi   = (90 - lat)  * (Math.PI / 180);
-    const theta = (lon + 180) * (Math.PI / 180);
-    return new THREE.Vector3(
-        -radio * Math.sin(phi) * Math.cos(theta),
-         radio * Math.cos(phi),
-         radio * Math.sin(phi) * Math.sin(theta)
-    );
-}
-
-// ── Variables globales ────────────────────────────────────────────────
-let scene, camera, renderer, globo, puntosGroup;
-let isDragging = false, prevMouse = { x: 0, y: 0 };
-let conflictosData = [];
-let puntosMesh = [];
-let modalGlobo;
-
-// ── Init Three.js ─────────────────────────────────────────────────────
-function initGlobo() {
-    const canvas    = document.getElementById('globo-canvas');
-    const container = document.getElementById('globo-container');
-
-    scene    = new THREE.Scene();
-    camera   = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.z = 2.8;
-
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    // Luz
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    dirLight.position.set(5, 3, 5);
-    scene.add(dirLight);
-
-    // Globo
-    const geometry = new THREE.SphereGeometry(1, 64, 64);
-    const loader   = new THREE.TextureLoader();
-
-    // Textura del globo desde CDN público
-    loader.load(
-        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
-        function(texture) {
-            const material = new THREE.MeshPhongMaterial({ map: texture });
-            globo = new THREE.Mesh(geometry, material);
-            scene.add(globo);
-        },
-        undefined,
-        function() {
-            // Fallback: globo azul simple si no carga la textura
-            const material = new THREE.MeshPhongMaterial({ color: 0x1a4a7a, wireframe: false });
-            globo = new THREE.Mesh(geometry, material);
-            scene.add(globo);
+        function obtenerCoordenadas(pais) {
+            if (!pais) return null;
+            const key = pais.toLowerCase().trim();
+            if (coordenadasPaises[key]) return coordenadasPaises[key];
+            for (const [nombre, coords] of Object.entries(coordenadasPaises)) {
+                if (key.includes(nombre) || nombre.includes(key)) return coords;
+            }
+            return null;
         }
-    );
 
-    // Atmósfera
-    const atmosGeo = new THREE.SphereGeometry(1.02, 64, 64);
-    const atmosMat = new THREE.MeshPhongMaterial({
-        color: 0x4488ff,
-        transparent: true,
-        opacity: 0.08,
-        side: THREE.FrontSide
-    });
-    scene.add(new THREE.Mesh(atmosGeo, atmosMat));
+        function latLonToVector3(lat, lon, radio) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            return new THREE.Vector3(
+                -radio * Math.sin(phi) * Math.cos(theta),
+                radio * Math.cos(phi),
+                radio * Math.sin(phi) * Math.sin(theta)
+            );
+        }
 
-    puntosGroup = new THREE.Group();
-    scene.add(puntosGroup);
+        // ── Variables globales ────────────────────────────────────────────────
+        let scene, camera, renderer, globo, puntosGroup;
+        let isDragging = false, prevMouse = { x: 0, y: 0 };
+        let postsData = [];
+        let puntosMesh = [];
+        let modalGlobo;
 
-    // Eventos
-    canvas.addEventListener('mousedown', e => { isDragging = true; prevMouse = { x: e.clientX, y: e.clientY }; });
-    canvas.addEventListener('mouseup',   () => { isDragging = false; });
-    canvas.addEventListener('mousemove', onMouseMove);
-    canvas.addEventListener('wheel',     onWheel);
-    canvas.addEventListener('click',     onGloboClick);
+        // ── Inicialización del globo ──────────────────────────────────────────
+        function initGlobo() {
+            const canvas = document.getElementById('globo-canvas');
+            const container = document.getElementById('globo-container');
 
-    window.addEventListener('resize', () => {
-        camera.aspect = container.clientWidth / container.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
-    });
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 2.8;
 
-    animate();
-}
+            renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
 
-function animate() {
-    requestAnimationFrame(animate);
-    // Rotación suave automática
-    if (!isDragging && puntosGroup) {
-        if (globo) globo.rotation.y += 0.0015;
-        puntosGroup.rotation.y += 0.0015;
-    }
-    // Pulso en los puntos
-    const t = Date.now() * 0.003;
-    puntosMesh.forEach((p, i) => {
-        const scale = 1 + 0.3 * Math.sin(t + i * 0.8);
-        p.scale.setScalar(scale);
-    });
-    renderer.render(scene, camera);
-}
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(5, 3, 5);
+            scene.add(dirLight);
 
-function onMouseMove(e) {
-    const canvas    = document.getElementById('globo-canvas');
-    const container = document.getElementById('globo-container');
+            const geometry = new THREE.SphereGeometry(1, 64, 64);
+            const loader = new THREE.TextureLoader();
+            loader.load(
+                'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
+                function (texture) {
+                    const material = new THREE.MeshPhongMaterial({ map: texture });
+                    globo = new THREE.Mesh(geometry, material);
+                    scene.add(globo);
+                },
+                undefined,
+                function () {
+                    const material = new THREE.MeshPhongMaterial({ color: 0x1a4a7a });
+                    globo = new THREE.Mesh(geometry, material);
+                    scene.add(globo);
+                }
+            );
 
-    if (isDragging) {
-        const dx = e.clientX - prevMouse.x;
-        const dy = e.clientY - prevMouse.y;
-        if (globo) { globo.rotation.y += dx * 0.005; globo.rotation.x += dy * 0.005; }
-        puntosGroup.rotation.y += dx * 0.005;
-        puntosGroup.rotation.x += dy * 0.005;
-        prevMouse = { x: e.clientX, y: e.clientY };
-    }
+            const atmosGeo = new THREE.SphereGeometry(1.02, 64, 64);
+            const atmosMat = new THREE.MeshPhongMaterial({
+                color: 0x4488ff,
+                transparent: true,
+                opacity: 0.08,
+                side: THREE.FrontSide
+            });
+            scene.add(new THREE.Mesh(atmosGeo, atmosMat));
 
-    // Tooltip hover
-    const rect   = canvas.getBoundingClientRect();
-    const mouse  = new THREE.Vector2(
-        ((e.clientX - rect.left) / rect.width)  * 2 - 1,
-        -((e.clientY - rect.top)  / rect.height) * 2 + 1
-    );
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-    const hits = raycaster.intersectObjects(puntosMesh);
-    const tooltip = document.getElementById('tooltip-globo');
-    if (hits.length > 0) {
-        const data = hits[0].object.userData;
-        tooltip.style.display = 'block';
-        tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
-        tooltip.style.top  = (e.clientY - rect.top  - 10) + 'px';
-        tooltip.innerText  = `⚔ ${data.pais} (${data.count} conflicto${data.count > 1 ? 's' : ''})`;
-        canvas.style.cursor = 'pointer';
-    } else {
-        tooltip.style.display = 'none';
-        canvas.style.cursor = isDragging ? 'grabbing' : 'grab';
-    }
-}
+            puntosGroup = new THREE.Group();
+            scene.add(puntosGroup);
 
-function onWheel(e) {
-    camera.position.z = Math.max(1.5, Math.min(5, camera.position.z + e.deltaY * 0.002));
-}
+            canvas.addEventListener('mousedown', e => { isDragging = true; prevMouse = { x: e.clientX, y: e.clientY }; });
+            canvas.addEventListener('mouseup', () => { isDragging = false; });
+            canvas.addEventListener('mousemove', onMouseMove);
+            canvas.addEventListener('wheel', onWheel);
+            canvas.addEventListener('click', onGloboClick);
 
-function onGloboClick(e) {
-    const canvas = document.getElementById('globo-canvas');
-    const rect   = canvas.getBoundingClientRect();
-    const mouse  = new THREE.Vector2(
-        ((e.clientX - rect.left) / rect.width)  * 2 - 1,
-        -((e.clientY - rect.top)  / rect.height) * 2 + 1
-    );
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-    const hits = raycaster.intersectObjects(puntosMesh);
-    if (hits.length > 0) {
-        const data = hits[0].object.userData;
-        mostrarPanel(data.pais, data.conflictos);
-    }
-}
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
 
-// ── Puntos en el globo ────────────────────────────────────────────────
-function agregarPuntos(conflictos) {
-    const porPais = {};
-    conflictos.forEach(c => {
-        // ✅ Separar por coma para múltiples países
-        const paises = (c.Pais || 'Desconocido').split(',').map(p => p.trim()).filter(p => p);
+            animate();
+        }
 
-        paises.forEach(pais => {
-            if (!porPais[pais]) porPais[pais] = [];
-            porPais[pais].push(c);
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!isDragging && puntosGroup) {
+                if (globo) globo.rotation.y += 0.0015;
+                puntosGroup.rotation.y += 0.0015;
+            }
+            const t = Date.now() * 0.003;
+            puntosMesh.forEach((p, i) => {
+                const scale = 1 + 0.3 * Math.sin(t + i * 0.8);
+                p.scale.setScalar(scale);
+            });
+            renderer.render(scene, camera);
+        }
+
+        function onMouseMove(e) {
+            const canvas = document.getElementById('globo-canvas');
+            if (isDragging) {
+                const dx = e.clientX - prevMouse.x;
+                const dy = e.clientY - prevMouse.y;
+                if (globo) globo.rotation.y += dx * 0.005; globo.rotation.x += dy * 0.005;
+                puntosGroup.rotation.y += dx * 0.005;
+                puntosGroup.rotation.x += dy * 0.005;
+                prevMouse = { x: e.clientX, y: e.clientY };
+            }
+
+            // Tooltip hover
+            const rect = canvas.getBoundingClientRect();
+            const mouse = new THREE.Vector2(
+                ((e.clientX - rect.left) / rect.width) * 2 - 1,
+                -((e.clientY - rect.top) / rect.height) * 2 + 1
+            );
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            const hits = raycaster.intersectObjects(puntosMesh);
+            const tooltip = document.getElementById('tooltip-globo');
+            if (hits.length > 0) {
+                const data = hits[0].object.userData;
+                tooltip.style.display = 'block';
+                tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
+                tooltip.style.top = (e.clientY - rect.top - 10) + 'px';
+                tooltip.innerText = `${data.count} comunidad${data.count > 1 ? 'es' : ''} en ${data.country}`;
+                canvas.style.cursor = 'pointer';
+            } else {
+                tooltip.style.display = 'none';
+                canvas.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+        }
+
+        function onWheel(e) {
+            camera.position.z = Math.max(1.5, Math.min(5, camera.position.z + e.deltaY * 0.002));
+        }
+
+        function onGloboClick(e) {
+            const canvas = document.getElementById('globo-canvas');
+            const rect = canvas.getBoundingClientRect();
+            const mouse = new THREE.Vector2(
+                ((e.clientX - rect.left) / rect.width) * 2 - 1,
+                -((e.clientY - rect.top) / rect.height) * 2 + 1
+            );
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            const hits = raycaster.intersectObjects(puntosMesh);
+            if (hits.length > 0) {
+                const data = hits[0].object.userData;
+                mostrarPanel(data.country, data.posts);
+            }
+        }
+
+        // ── Agregar puntos según país ─────────────────────────────────────────
+        function agregarPuntos(posts) {
+            const porPais = {};
+            posts.forEach(p => {
+                const country = p.Country || 'Desconocido';
+                if (!porPais[country]) porPais[country] = [];
+                porPais[country].push(p);
+            });
+
+            document.getElementById('contadorNum').innerText = posts.length;
+
+            Object.entries(porPais).forEach(([country, lista]) => {
+                const coords = obtenerCoordenadas(country);
+                if (!coords) return;
+
+                const pos = latLonToVector3(coords.lat, coords.lon, 1.02);
+
+                // Punto principal
+                const geo = new THREE.SphereGeometry(0.022, 16, 16);
+                const mat = new THREE.MeshBasicMaterial({ color: 0xff2222 });
+                const punto = new THREE.Mesh(geo, mat);
+                punto.position.copy(pos);
+                punto.userData = { country, posts: lista, count: lista.length };
+                puntosGroup.add(punto);
+                puntosMesh.push(punto);
+
+                // Halo exterior
+                const haloGeo = new THREE.SphereGeometry(0.035, 16, 16);
+                const haloMat = new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.3 });
+                const halo = new THREE.Mesh(haloGeo, haloMat);
+                halo.position.copy(pos);
+                puntosGroup.add(halo);
+            });
+        }
+
+        // ── Panel lateral ─────────────────────────────────────────────────────
+        function mostrarPanel(country, posts) {
+            document.getElementById('panel-pais').innerText = country;
+            const lista = document.getElementById('panel-lista');
+            lista.innerHTML = '';
+
+            posts.forEach(p => {
+                const imgSrc = p.Image ? (p.Image.startsWith('http') ? p.Image : '/Imagenes/' + p.Image) : '';
+                const fecha = p.CreatedAt ? new Date(p.CreatedAt).toLocaleDateString() : '';
+
+                const card = document.createElement('div');
+                card.className = 'conflicto-card';
+                card.innerHTML = `
+                  <div class="fecha-badge"><i class="fa fa-calendar me-1"></i>${fecha}</div>
+                  <h6>${p.Title}</h6>
+                  <p>${p.Content}</p>
+              `;
+                card.onclick = () => abrirDetalleGlobo(p.Title, p.Content, fecha, imgSrc);
+                lista.appendChild(card);
+            });
+
+            document.getElementById('panel-conflictos').style.display = 'flex';
+        }
+
+        function cerrarPanel() {
+            document.getElementById('panel-conflictos').style.display = 'none';
+        }
+
+        function abrirDetalleGlobo(titulo, contenido, fecha, imagen) {
+            document.getElementById('gdTitulo').innerText = titulo;
+            document.getElementById('gdHechos').innerText = contenido;
+            document.getElementById('gdFecha').innerText = fecha;
+
+            const img = document.getElementById('gdImagen');
+            const sin = document.getElementById('gdSinImagen');
+            if (imagen) {
+                img.src = imagen;
+                img.style.display = 'block';
+                sin.style.display = 'none';
+            } else {
+                img.style.display = 'none';
+                sin.style.display = 'block';
+            }
+
+            modalGlobo.show();
+        }
+
+        // ── Cargar datos desde API ───────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
+            modalGlobo = new bootstrap.Modal(document.getElementById('modalDetalleGlobo'));
+            initGlobo();
+
+            fetch('/api/post')
+                .then(res => res.json())
+                .then(data => {
+                    postsData = data.filter(p => !p.IsDeleted); // Solo activos
+                    agregarPuntos(postsData);
+                });
         });
-    });
-
-    document.getElementById('contadorNum').innerText = conflictos.length;
-
-    Object.entries(porPais).forEach(([pais, lista]) => {
-        const coords = obtenerCoordenadas(pais);
-        if (!coords) return;
-
-        const pos = latLonToVector3(coords.lat, coords.lon, 1.02);
-
-        const geo = new THREE.SphereGeometry(0.022, 16, 16);
-        const mat = new THREE.MeshBasicMaterial({ color: 0xff2222 });
-        const punto = new THREE.Mesh(geo, mat);
-        punto.position.copy(pos);
-        punto.userData = { pais, conflictos: lista, count: lista.length };
-        puntosGroup.add(punto);
-        puntosMesh.push(punto);
-
-        const haloGeo = new THREE.SphereGeometry(0.035, 16, 16);
-        const haloMat = new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.3 });
-        const halo = new THREE.Mesh(haloGeo, haloMat);
-        halo.position.copy(pos);
-        puntosGroup.add(halo);
-    });
-
-    document.getElementById('contadorNum').innerText = conflictos.length;
-
-    Object.entries(porPais).forEach(([pais, lista]) => {
-        const coords = obtenerCoordenadas(pais);
-        if (!coords) return;
-
-        const pos = latLonToVector3(coords.lat, coords.lon, 1.02);
-
-        // Punto principal
-        const geo = new THREE.SphereGeometry(0.022, 16, 16);
-        const mat = new THREE.MeshBasicMaterial({ color: 0xff2222 });
-        const punto = new THREE.Mesh(geo, mat);
-        punto.position.copy(pos);
-        punto.userData = { pais, conflictos: lista, count: lista.length };
-        puntosGroup.add(punto);
-        puntosMesh.push(punto);
-
-        // Halo exterior
-        const haloGeo = new THREE.SphereGeometry(0.035, 16, 16);
-        const haloMat = new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.3 });
-        const halo = new THREE.Mesh(haloGeo, haloMat);
-        halo.position.copy(pos);
-        puntosGroup.add(halo);
-    });
-}
-
-// ── Panel lateral ─────────────────────────────────────────────────────
-function mostrarPanel(pais, conflictos) {
-    document.getElementById('panel-pais').innerText = `⚔ ${pais}`;
-    const lista = document.getElementById('panel-lista');
-    lista.innerHTML = '';
-
-    conflictos.forEach(c => {
-        const imgSrc = c.Imagen
-            ? (c.Imagen.startsWith('http') ? c.Imagen : '/Imagenes/' + c.Imagen)
-            : '';
-        const fecha = c.Fecha ? c.Fecha.split('T')[0] : '';
-
-        const card = document.createElement('div');
-        card.className = 'conflicto-card';
-        card.innerHTML = `
-            <div class="fecha-badge"><i class="fa fa-calendar me-1"></i>${fecha}</div>
-            <h6>${c.Titulo}</h6>
-            <p>${c.Hechos}</p>
-        `;
-        card.onclick = () => abrirDetalleGlobo(c.Titulo, c.Hechos, fecha, imgSrc);
-        lista.appendChild(card);
-    });
-
-    document.getElementById('panel-conflictos').style.display = 'flex';
-}
-
-function cerrarPanel() {
-    document.getElementById('panel-conflictos').style.display = 'none';
-}
-
-function abrirDetalleGlobo(titulo, hechos, fecha, imagen) {
-    document.getElementById('gdTitulo').innerText = titulo;
-    document.getElementById('gdHechos').innerText = hechos;
-    document.getElementById('gdFecha').innerText  = fecha;
-
-    const img = document.getElementById('gdImagen');
-    const sin = document.getElementById('gdSinImagen');
-    if (imagen) {
-        img.src = imagen;
-        img.style.display = 'block';
-        sin.style.display = 'none';
-    } else {
-        img.style.display = 'none';
-        sin.style.display = 'block';
-    }
-
-    modalGlobo.show();
-}
-
-// ── Cargar datos ──────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function () {
-    modalGlobo = new bootstrap.Modal(document.getElementById('modalDetalleGlobo'));
-    initGlobo();
-
-    fetch('/api/Foro')
-        .then(res => res.json())
-        .then(data => {
-            // Solo conflictos activos
-            conflictosData = data.filter(f => f.Activa === true);
-            agregarPuntos(conflictosData);
-        });
-});</script>
+    </script>
 }

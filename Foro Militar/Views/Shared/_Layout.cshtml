@@ -278,7 +278,7 @@
     @RenderSection("scripts", required: false)
 
     <script>
-        fetch('/api/Foro')
+        fetch('/api/Post')
             .then(r => r.json())
             .then(data => {
                 const activos = data.filter(f => f.Activa === true).length;

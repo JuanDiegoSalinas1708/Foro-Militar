@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Foro.Entities.Models;
+using System;
 using System.Web.Http;
 
 [RoutePrefix("api/posts")]

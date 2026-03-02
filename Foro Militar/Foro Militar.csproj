@@ -155,10 +155,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ViewController\AdminController.cs" />
     <Compile Include="Controllers\ForoController.cs" />
-    <Compile Include="Controllers\ForoViewController.cs" />
-    <Compile Include="Controllers\GloboViewController.cs" />
+    <Compile Include="Controllers\ViewController\ForoViewController.cs" />
+    <Compile Include="Controllers\ViewController\GloboViewController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeUsuarioController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -167,7 +167,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Foro.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Community.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostCategory.cs" />
+    <Compile Include="Models\UserCommunity.cs" />
+    <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

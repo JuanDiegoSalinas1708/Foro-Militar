@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Foro Militar";
+    ViewBag.Title = "Foro";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,9 +7,9 @@
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold" style="color:#1a2a3a;">
-            <i class="fa-solid fa-shield-halved" style="color:#4a7fa5;"></i>
-            Foro Militar
+        <h3 class="fw-bold" style="color:#1A225C;">
+            <i class="fa-solid fa-layer-group" style="color:#A9A9C7;"></i>
+            <span id="nombreComunidad">Foro</span>
         </h3>
         <div class="d-flex gap-2">
             <a href="@Url.Action("Index", "GloboView")" class="btn btn-globe px-4">
@@ -29,18 +29,16 @@
                     <tr>
                         <th>#</th>
                         <th>Título</th>
-                        <th>Hechos</th>
+                        <th>Contenido</th>
                         <th>País</th>
                         <th>Fecha</th>
                         <th>Imagen</th>
-                        <th>Activa</th>
+                        <th>Estado</th>
                         <th style="width:120px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tablaForo"></tbody>
             </table>
-
-            <!-- Paginación -->
             <div id="paginacion"></div>
         </div>
     </div>
@@ -56,18 +54,20 @@
             </div>
             <div class="modal-body p-0" style="background-color:#f8f9fb;">
                 <div class="row g-0">
-                    <div class="col-md-5 d-flex align-items-center justify-content-center" style="background-color:#1a2a3a; min-height:280px;">
+                    <div class="col-md-5 d-flex align-items-center justify-content-center"
+                         style="background-color:#1A225C; min-height:280px;">
                         <img id="detalleImagen" src="" alt="Imagen"
                              style="max-width:100%; max-height:320px; object-fit:contain; padding:16px;"
                              onerror="this.style.display='none'; document.getElementById('sinImagen').style.display='flex';">
-                        <div id="sinImagen" style="display:none; flex-direction:column; align-items:center; justify-content:center; color:#6b7c8d; padding:20px;">
+                        <div id="sinImagen"
+                             style="display:none; flex-direction:column; align-items:center; justify-content:center; color:#A9A9C7; padding:20px;">
                             <i class="fa fa-image fa-3x mb-2"></i>
                             <span>Sin imagen</span>
                         </div>
                     </div>
                     <div class="col-md-7 p-4">
                         <div class="d-flex gap-2 mb-3 flex-wrap">
-                            <span class="badge" style="background-color:#2c4a6e; font-size:0.8rem;">
+                            <span class="badge" style="background-color:#1A225C; font-size:0.8rem;">
                                 <i class="fa fa-calendar me-1"></i>
                                 <span id="detalleFecha"></span>
                             </span>
@@ -77,8 +77,8 @@
                             </span>
                             <span id="detalleActivaBadge" class="badge" style="font-size:0.8rem;"></span>
                         </div>
-                        <h6 class="fw-bold mb-2" style="color:#2c4a6e;">Descripción de los hechos</h6>
-                        <p id="detalleHechos" style="color:#1a2a3a; line-height:1.7; text-align:justify;"></p>
+                        <h6 class="fw-bold mb-2" style="color:#1A225C;">Descripción</h6>
+                        <p id="detalleHechos" style="color:#1A225C; line-height:1.7; text-align:justify;"></p>
                     </div>
                 </div>
             </div>
@@ -91,53 +91,62 @@
 
 <!-- MODAL CREAR / EDITAR -->
 <div class="modal fade" id="modalForo" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content border-0 shadow">
             <div class="modal-header modal-header-custom">
                 <h5 class="modal-title" id="modalTitulo"></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" style="background-color:#f8f9fb;">
-                <input type="hidden" id="foroId">
+                <input type="hidden" id="postId">
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold label-custom">Título</label>
-                    <input type="text" id="titulo" class="form-control input-custom" required>
+                    <input type="text" id="inputTitle" class="form-control input-custom"
+                           placeholder="Título de la publicación" required>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold label-custom">Hechos</label>
-                    <textarea id="hechos" class="form-control input-custom" rows="3" required></textarea>
+                    <label class="form-label fw-semibold label-custom">Contenido / Hechos</label>
+                    <textarea id="inputContent" class="form-control input-custom" rows="4"
+                              placeholder="Descripción detallada..." required></textarea>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold label-custom">Fecha</label>
-                        <input type="date" id="fecha" class="form-control input-custom" required>
+                        <label class="form-label fw-semibold label-custom">País(es)</label>
+                        <input type="text" id="inputCountry" class="form-control input-custom"
+                               placeholder="Ej: Colombia, Venezuela">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold label-custom">País(es)</label>
-                        <input type="text" id="pais" class="form-control input-custom" placeholder="Ej: Israel, Gaza">
+                        <label class="form-label fw-semibold label-custom">Imagen (URL)</label>
+                        <input type="text" id="inputImage" class="form-control input-custom"
+                               placeholder="https://...">
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold label-custom">Imagen (URL)</label>
-                    <input type="text" id="imagen" class="form-control input-custom" placeholder="https://...">
+                    <label class="form-label fw-semibold label-custom">Categoría principal</label>
+                    <select id="inputCategory" class="form-select input-custom">
+                        <option value="">Cargando categorías...</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="activa" style="width:2.5em; height:1.3em;">
-                        <label class="form-check-label fw-semibold label-custom ms-2" for="activa">
-                            ¿Conflicto activo actualmente?
+                        <input class="form-check-input" type="checkbox" id="inputActivo"
+                               style="width:2.5em; height:1.3em;" checked>
+                        <label class="form-check-label fw-semibold label-custom ms-2" for="inputActivo">
+                            ¿Publicación activa?
                         </label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer" style="background-color:#f0f2f5;">
                 <button class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancelar</button>
-                <button class="btn btn-primary-custom px-4" onclick="guardarForo()">Guardar</button>
+                <button class="btn btn-primary-custom px-4" onclick="guardarPost()">
+                    <i class="fa fa-save me-1"></i> Guardar
+                </button>
             </div>
         </div>
     </div>
@@ -150,7 +159,7 @@
             <div class="modal-header" style="background-color:#b33030; color:white; border-radius:10px 10px 0 0;">
                 <h6 class="modal-title">Confirmar eliminación</h6>
             </div>
-            <div class="modal-body text-center" style="color:#1a2a3a; background-color:#f8f9fb;">
+            <div class="modal-body text-center" style="color:#1A225C; background-color:#f8f9fb;">
                 ¿Está seguro que desea eliminar esta publicación?
                 <input type="hidden" id="idEliminar">
             </div>
@@ -164,11 +173,11 @@
 
 <style>
     :root {
-        --color-navy: #1a2a3a;
-        --color-steel: #2c4a6e;
-        --color-accent: #4a7fa5;
-        --color-accent-hover: #3a6a8e;
-        --color-border: #dce3ea;
+        --color-navy: #1A225C;
+        --color-steel: #1A225C;
+        --color-accent: #A9A9C7;
+        --color-accent-hover: #1A225C;
+        --color-border: #d0d0e8;
         --color-danger: #b33030;
         --color-danger-hover: #962828;
         --color-warning: #a07520;
@@ -188,7 +197,7 @@
 
     .thead-custom {
         background-color: var(--color-steel);
-        color: #ffffff;
+        color: #fff;
     }
 
         .thead-custom th {
@@ -204,7 +213,7 @@
     }
 
         table tbody tr:hover {
-            background-color: #e8eef4;
+            background-color: #e0e0f0;
             transition: background-color 0.2s;
         }
 
@@ -221,7 +230,7 @@
 
     .btn-primary-custom {
         background-color: var(--color-accent);
-        color: #ffffff;
+        color: #fff;
         border: none;
         border-radius: 6px;
         font-weight: 500;
@@ -230,7 +239,7 @@
 
         .btn-primary-custom:hover {
             background-color: var(--color-accent-hover);
-            color: #ffffff;
+            color: #fff;
         }
 
     .btn-secondary-custom {
@@ -248,7 +257,7 @@
 
     .btn-danger-custom {
         background-color: var(--color-danger);
-        color: #ffffff;
+        color: #fff;
         border: none;
         border-radius: 6px;
         font-weight: 500;
@@ -256,12 +265,12 @@
 
         .btn-danger-custom:hover {
             background-color: var(--color-danger-hover);
-            color: #ffffff;
+            color: #fff;
         }
 
     .btn-globe {
         background-color: var(--color-globe);
-        color: #ffffff;
+        color: #fff;
         border: none;
         border-radius: 6px;
         font-weight: 500;
@@ -270,7 +279,7 @@
 
         .btn-globe:hover {
             background-color: var(--color-globe-hover);
-            color: #ffffff;
+            color: #fff;
         }
 
     .btn-outline-warning {
@@ -280,7 +289,7 @@
 
         .btn-outline-warning:hover {
             background-color: var(--color-warning) !important;
-            color: #ffffff !important;
+            color: #fff !important;
         }
 
     .btn-outline-danger {
@@ -290,12 +299,12 @@
 
         .btn-outline-danger:hover {
             background-color: var(--color-danger) !important;
-            color: #ffffff !important;
+            color: #fff !important;
         }
 
     .modal-header-custom {
         background-color: var(--color-steel);
-        color: #ffffff;
+        color: #fff;
     }
 
     .label-custom {
@@ -305,12 +314,12 @@
     .input-custom {
         border-color: var(--color-border);
         color: var(--color-navy);
-        background-color: #ffffff;
+        background-color: #fff;
     }
 
         .input-custom:focus {
             border-color: var(--color-accent);
-            box-shadow: 0 0 0 0.2rem rgba(74,127,165,0.2);
+            box-shadow: 0 0 0 0.2rem rgba(169,169,199,0.25);
         }
 
     img.preview-img {
@@ -321,14 +330,13 @@
         border: 2px solid var(--color-border);
     }
 
-    /* Paginación */
     .page-link {
         color: var(--color-steel);
         border-color: var(--color-border);
     }
 
         .page-link:hover {
-            background-color: #e8eef4;
+            background-color: #e0e0f0;
             color: var(--color-navy);
             border-color: var(--color-border);
         }
@@ -347,78 +355,128 @@
 @section scripts {
     <script>
 
-        const apiUrl = "/api/Foro";
+        // ── Params desde URL ──────────────────────────────────────────────
+        const urlParams = new URLSearchParams(window.location.search);
+        const communityId = parseInt(urlParams.get('communityId')) || 1;
+        const userId = parseInt(urlParams.get('userId')) || 1;
+
+        const apiPosts = '/api/Posts';
+        const apiCategories = '/api/Categories';
+
         let modalForo, modalEliminar, modalDetalle;
         let todosLosRegistros = [];
         let paginaActual = 1;
         const registrosPorPagina = 5;
 
-        document.addEventListener("DOMContentLoaded", function () {
+        // ── Init ──────────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
             modalForo = new bootstrap.Modal(document.getElementById('modalForo'));
             modalEliminar = new bootstrap.Modal(document.getElementById('modalEliminar'));
             modalDetalle = new bootstrap.Modal(document.getElementById('modalDetalle'));
-            cargarForo();
+
+            cargarCategorias();
+            cargarPosts();
         });
 
-        function cargarForo() {
-            fetch(apiUrl)
+        // ── Categorías ────────────────────────────────────────────────────
+        function cargarCategorias() {
+            fetch(apiCategories)
                 .then(res => res.json())
-                .then(data => {
-                    todosLosRegistros = data;
-                    paginaActual = 1;
-                    renderTabla();
+                .then(cats => {
+                    const sel = document.getElementById('inputCategory');
+                    sel.innerHTML = '<option value="">Selecciona una categoría</option>';
+                    cats.forEach(c => {
+                        sel.innerHTML += `<option value="${c.Id}">${c.Name}</option>`;
+                    });
+                })
+                .catch(() => {
+                    document.getElementById('inputCategory').innerHTML =
+                        '<option value="1">General</option>';
                 });
         }
 
+        // ── Cargar posts ──────────────────────────────────────────────────
+        function cargarPosts() {
+            fetch(`${apiPosts}?communityId=${communityId}`)
+                .then(res => res.json())
+                .then(data => {
+                    todosLosRegistros = data;
+
+                    // Nombre de la comunidad en el header
+                    if (data.length > 0 && data[0].Community?.Name) {
+                        document.getElementById('nombreComunidad').innerText = data[0].Community.Name;
+                    }
+
+                    paginaActual = 1;
+                    renderTabla();
+                })
+                .catch(() => {
+                    document.getElementById('tablaForo').innerHTML = `
+                        <tr><td colspan="8" class="text-center py-4" style="color:#A9A9C7;">
+                            <i class="fa fa-exclamation-triangle me-2"></i>No se pudo conectar con la API
+                        </td></tr>`;
+                });
+        }
+
+        // ── Render tabla ──────────────────────────────────────────────────
         function renderTabla() {
             const inicio = (paginaActual - 1) * registrosPorPagina;
             const fin = inicio + registrosPorPagina;
             const pagina = todosLosRegistros.slice(inicio, fin);
             const totalPaginas = Math.ceil(todosLosRegistros.length / registrosPorPagina);
 
-            let html = "";
-            pagina.forEach(f => {
-                const imgSrc = f.Imagen
-                    ? (f.Imagen.startsWith('http') ? f.Imagen : '/Imagenes/' + f.Imagen)
+            let html = '';
+            pagina.forEach(p => {
+                const imgSrc = p.Image
+                    ? (p.Image.startsWith('http') ? p.Image : '/Imagenes/' + p.Image)
                     : '';
-
-                const activaBadge = f.Activa
-                    ? `<span class="badge" style="background-color:#b33030;">Activa</span>`
-                    : `<span class="badge" style="background-color:#6b7c8d;">Histórica</span>`;
+                const fecha = p.CreatedAt ? p.CreatedAt.split('T')[0] : '—';
+                const activaBadge = !p.IsDeleted
+                    ? `<span class="badge" style="background-color:#2a6e3a;">Activa</span>`
+                    : `<span class="badge" style="background-color:#A9A9C7;">Eliminada</span>`;
+                const contenidoCorto = (p.Content || '').substring(0, 80) + ((p.Content || '').length > 80 ? '...' : '');
 
                 html += `
-                <tr onclick="verDetalle('${f.Id}', \`${f.Titulo}\`, \`${f.Hechos}\`, '${f.Fecha}', '${imgSrc}', \`${f.Pais || ''}\`, ${f.Activa})">
-                    <td>${f.Id}</td>
-                    <td class="text-start fw-semibold">${f.Titulo}</td>
-                    <td class="text-start">${f.Hechos}</td>
-                    <td>${f.Pais || '—'}</td>
-                    <td>${f.Fecha.split("T")[0]}</td>
+                <tr onclick="verDetalle(${p.Id})">
+                    <td>${p.Id}</td>
+                    <td class="text-start fw-semibold">${p.Title}</td>
+                    <td class="text-start">${contenidoCorto}</td>
+                    <td>${p.Country || '—'}</td>
+                    <td>${fecha}</td>
                     <td>${imgSrc ? `<img src="${imgSrc}" class="preview-img">` : '—'}</td>
                     <td>${activaBadge}</td>
                     <td onclick="event.stopPropagation()">
-                        <button class="btn btn-sm btn-outline-warning me-1"
-                            onclick="editar(${f.Id}, \`${f.Titulo}\`, \`${f.Hechos}\`, '${f.Fecha}', '${f.Imagen || ''}', \`${f.Pais || ''}\`, ${f.Activa})">
+                        <button class="btn btn-sm btn-outline-warning me-1" onclick="abrirModalEditar(${p.Id})">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="btn btn-sm btn-outline-danger"
-                            onclick="eliminar(${f.Id})">
+                        <button class="btn btn-sm btn-outline-danger" onclick="eliminar(${p.Id})">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td>
                 </tr>`;
             });
 
-            document.getElementById("tablaForo").innerHTML = html;
+            document.getElementById('tablaForo').innerHTML = html || `
+                <tr><td colspan="8" class="text-center py-4" style="color:#A9A9C7;">
+                    No hay publicaciones aún
+                </td></tr>`;
+
             renderPaginacion(totalPaginas);
         }
 
+        // ── Paginación ────────────────────────────────────────────────────
         function renderPaginacion(totalPaginas) {
+            if (todosLosRegistros.length === 0) {
+                document.getElementById('paginacion').innerHTML = '';
+                return;
+            }
             const inicio = ((paginaActual - 1) * registrosPorPagina) + 1;
             const fin = Math.min(paginaActual * registrosPorPagina, todosLosRegistros.length);
 
             let html = `
-            <div class="d-flex justify-content-between align-items-center px-3 py-2" style="background:#f8f9fb; border-top:1px solid #dce3ea;">
-                <small style="color:#6b7c8d;">
+            <div class="d-flex justify-content-between align-items-center px-3 py-2"
+                 style="background:#f8f9fb; border-top:1px solid #d0d0e8;">
+                <small style="color:#A9A9C7;">
                     Mostrando ${inicio}–${fin} de ${todosLosRegistros.length} registros
                 </small>
                 <ul class="pagination pagination-sm mb-0">
@@ -444,7 +502,7 @@
                 </ul>
             </div>`;
 
-            document.getElementById("paginacion").innerHTML = html;
+            document.getElementById('paginacion').innerHTML = html;
         }
 
         function cambiarPagina(pagina) {
@@ -455,93 +513,141 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function verDetalle(id, titulo, hechos, fecha, imagen, pais, activa) {
-            document.getElementById("detalleTitulo").innerText = titulo;
-            document.getElementById("detalleHechos").innerText = hechos;
-            document.getElementById("detalleFecha").innerText = fecha ? fecha.split("T")[0] : '';
-            document.getElementById("detallePais").innerText = pais || 'Sin especificar';
+        // ── Ver detalle ───────────────────────────────────────────────────
+        function verDetalle(id) {
+            const p = todosLosRegistros.find(x => x.Id === id);
+            if (!p) return;
 
-            const activaBadge = document.getElementById("detalleActivaBadge");
-            activaBadge.innerText = activa ? "⚔ Conflicto Activo" : "📜 Histórico";
-            activaBadge.style.backgroundColor = activa ? "#b33030" : "#6b7c8d";
+            document.getElementById('detalleTitulo').innerText = p.Title;
+            document.getElementById('detalleHechos').innerText = p.Content;
+            document.getElementById('detalleFecha').innerText = p.CreatedAt ? p.CreatedAt.split('T')[0] : '—';
+            document.getElementById('detallePais').innerText = p.Country || 'Sin especificar';
 
-            const img = document.getElementById("detalleImagen");
-            const sinImagen = document.getElementById("sinImagen");
-            if (imagen) {
-                img.src = imagen;
-                img.style.display = "block";
-                sinImagen.style.display = "none";
+            const badge = document.getElementById('detalleActivaBadge');
+            badge.innerText = !p.IsDeleted ? '✔ Activo' : '🗑 Eliminado';
+            badge.style.backgroundColor = !p.IsDeleted ? '#2a6e3a' : '#A9A9C7';
+
+            const imgSrc = p.Image
+                ? (p.Image.startsWith('http') ? p.Image : '/Imagenes/' + p.Image)
+                : '';
+
+            const img = document.getElementById('detalleImagen');
+            const sinImagen = document.getElementById('sinImagen');
+            if (imgSrc) {
+                img.src = imgSrc;
+                img.style.display = 'block';
+                sinImagen.style.display = 'none';
             } else {
-                img.style.display = "none";
-                sinImagen.style.display = "flex";
+                img.style.display = 'none';
+                sinImagen.style.display = 'flex';
             }
 
             modalDetalle.show();
         }
 
+        // ── Crear ─────────────────────────────────────────────────────────
         function abrirModalCrear() {
-            limpiar();
-            document.getElementById("modalTitulo").innerText = "Nueva Publicación";
+            limpiarForm();
+            document.getElementById('modalTitulo').innerText = 'Nueva Publicación';
             modalForo.show();
         }
 
-        function editar(id, titulo, hechos, fecha, imagen, pais, activa) {
-            document.getElementById("foroId").value = id;
-            document.getElementById("titulo").value = titulo;
-            document.getElementById("hechos").value = hechos;
-            document.getElementById("fecha").value = fecha.split("T")[0];
-            document.getElementById("imagen").value = imagen || '';
-            document.getElementById("pais").value = pais || '';
-            document.getElementById("activa").checked = activa;
-            document.getElementById("modalTitulo").innerText = "Editar Publicación";
+        // ── Editar ────────────────────────────────────────────────────────
+        function abrirModalEditar(id) {
+            const p = todosLosRegistros.find(x => x.Id === id);
+            if (!p) return;
+
+            document.getElementById('postId').value = p.Id;
+            document.getElementById('inputTitle').value = p.Title;
+            document.getElementById('inputContent').value = p.Content;
+            document.getElementById('inputCountry').value = p.Country || '';
+            document.getElementById('inputImage').value = p.Image || '';
+            document.getElementById('inputActivo').checked = !p.IsDeleted;
+
+            // Seleccionar categoría
+            const sel = document.getElementById('inputCategory');
+            sel.value = p.MainCategoryId || '';
+
+            document.getElementById('modalTitulo').innerText = 'Editar Publicación';
             modalForo.show();
         }
 
-        function guardarForo() {
-            const id = document.getElementById("foroId").value;
-            const foro = {
-                Titulo: document.getElementById("titulo").value,
-                Hechos: document.getElementById("hechos").value,
-                Fecha: document.getElementById("fecha").value,
-                Imagen: document.getElementById("imagen").value,
-                Pais: document.getElementById("pais").value,
-                Activa: document.getElementById("activa").checked
+        // ── Guardar (crear o editar) ───────────────────────────────────────
+        function guardarPost() {
+            const id = document.getElementById('postId').value;
+            const title = document.getElementById('inputTitle').value.trim();
+            const content = document.getElementById('inputContent').value.trim();
+            const catId = document.getElementById('inputCategory').value;
+
+            if (!title || !content) {
+                alert('Título y Contenido son obligatorios.');
+                return;
+            }
+            if (!catId) {
+                alert('Selecciona una categoría.');
+                return;
+            }
+
+            const post = {
+                Title: title,
+                Content: content,
+                Country: document.getElementById('inputCountry').value.trim(),
+                Image: document.getElementById('inputImage').value.trim(),
+                IsDeleted: !document.getElementById('inputActivo').checked,
+                UserId: userId,
+                CommunityId: communityId,
+                MainCategoryId: parseInt(catId)
             };
 
             if (id) {
-                fetch(apiUrl + "?id=" + id, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(foro)
-                }).then(() => { modalForo.hide(); cargarForo(); });
+                // PUT — editar
+                fetch(`${apiPosts}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(post)
+                })
+                    .then(res => {
+                        if (res.ok) { modalForo.hide(); cargarPosts(); }
+                        else alert('Error al actualizar la publicación.');
+                    });
             } else {
-                fetch(apiUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(foro)
-                }).then(() => { modalForo.hide(); cargarForo(); });
+                // POST — crear
+                fetch(apiPosts, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(post)
+                })
+                    .then(res => {
+                        if (res.ok) { modalForo.hide(); cargarPosts(); }
+                        else alert('Error al crear la publicación.');
+                    });
             }
         }
 
+        // ── Eliminar ──────────────────────────────────────────────────────
         function eliminar(id) {
-            document.getElementById("idEliminar").value = id;
+            document.getElementById('idEliminar').value = id;
             modalEliminar.show();
         }
 
         function confirmarEliminar() {
-            const id = document.getElementById("idEliminar").value;
-            fetch(apiUrl + "?id=" + id, { method: "DELETE" })
-                .then(() => { modalEliminar.hide(); cargarForo(); });
+            const id = document.getElementById('idEliminar').value;
+            fetch(`${apiPosts}/${id}`, { method: 'DELETE' })
+                .then(res => {
+                    if (res.ok) { modalEliminar.hide(); cargarPosts(); }
+                    else alert('Error al eliminar la publicación.');
+                });
         }
 
-        function limpiar() {
-            document.getElementById("foroId").value = "";
-            document.getElementById("titulo").value = "";
-            document.getElementById("hechos").value = "";
-            document.getElementById("fecha").value = "";
-            document.getElementById("imagen").value = "";
-            document.getElementById("pais").value = "";
-            document.getElementById("activa").checked = false;
+        // ── Limpiar form ──────────────────────────────────────────────────
+        function limpiarForm() {
+            document.getElementById('postId').value = '';
+            document.getElementById('inputTitle').value = '';
+            document.getElementById('inputContent').value = '';
+            document.getElementById('inputCountry').value = '';
+            document.getElementById('inputImage').value = '';
+            document.getElementById('inputActivo').checked = true;
+            document.getElementById('inputCategory').value = '';
         }
 
     </script>

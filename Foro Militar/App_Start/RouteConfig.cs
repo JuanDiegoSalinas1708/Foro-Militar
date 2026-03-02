@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Foro_Militar
+namespace Foro
 {
     public class RouteConfig
     {

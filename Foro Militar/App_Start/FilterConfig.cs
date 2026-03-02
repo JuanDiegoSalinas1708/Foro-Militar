@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Foro_Militar
+namespace Foro
 {
     public class FilterConfig
     {

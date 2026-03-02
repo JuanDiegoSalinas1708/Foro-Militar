@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Foro_Militar
+namespace Foro
 {
     public class FileName
     {

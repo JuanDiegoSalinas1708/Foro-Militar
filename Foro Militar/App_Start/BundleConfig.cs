@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Foro_Militar
+namespace Foro
 {
     public class BundleConfig
     {

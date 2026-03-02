@@ -5,9 +5,9 @@
 
 <style>
     .admin-hero {
-        background: linear-gradient(135deg, #0d1b2a 0%, #1a2a3a 100%);
+        background: linear-gradient(135deg, #161D3A 0%, #1A225C 100%);
         padding: 36px 40px;
-        border-bottom: 1px solid #2c4a6e;
+        border-bottom: 1px solid #1A225C;
     }
 
         .admin-hero h2 {
@@ -18,14 +18,14 @@
         }
 
         .admin-hero p {
-            color: #6b7c8d;
+            color: #A9A9C7;
             margin: 6px 0 0;
             font-size: 0.88rem;
         }
 
     .admin-body {
         padding: 32px 40px;
-        background: #f0f2f5;
+        background: #f4f4f8;
         min-height: calc(100vh - 160px);
     }
 
@@ -34,7 +34,7 @@
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #6b7c8d;
+        color: #A9A9C7;
         margin-bottom: 18px;
         display: flex;
         align-items: center;
@@ -45,7 +45,7 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: #dce3ea;
+            background: #d0d0e8;
         }
 
     /* Stats */
@@ -60,7 +60,7 @@
         background: #fff;
         border-radius: 10px;
         padding: 18px 20px;
-        border: 1px solid #e8eef4;
+        border: 1px solid rgba(169,169,199,0.3);
         display: flex;
         align-items: center;
         gap: 14px;
@@ -82,12 +82,12 @@
             font-size: 1.6rem;
             font-weight: 800;
             line-height: 1;
-            color: #1a2a3a;
+            color: #1A225C;
         }
 
         .stat-mini .lbl {
             font-size: 0.75rem;
-            color: #6b7c8d;
+            color: #A9A9C7;
             margin-top: 2px;
         }
 
@@ -102,7 +102,7 @@
     .foro-card {
         background: #fff;
         border-radius: 12px;
-        border: 1px solid #e8eef4;
+        border: 1px solid rgba(169,169,199,0.3);
         overflow: hidden;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         transition: transform 0.2s, box-shadow 0.2s;
@@ -134,13 +134,13 @@
     .foro-card-info h5 {
         margin: 0;
         font-weight: 700;
-        color: #1a2a3a;
+        color: #1A225C;
         font-size: 1rem;
     }
 
     .foro-card-info p {
         margin: 3px 0 0;
-        color: #6b7c8d;
+        color: #A9A9C7;
         font-size: 0.78rem;
     }
 
@@ -157,12 +157,12 @@
         .foro-stat .n {
             font-size: 1.2rem;
             font-weight: 800;
-            color: #1a2a3a;
+            color: #1A225C;
         }
 
         .foro-stat .l {
             font-size: 0.7rem;
-            color: #9ab0c4;
+            color: #A9A9C7;
         }
 
     .foro-card-footer {
@@ -175,7 +175,7 @@
 
     .btn-gestionar {
         flex: 1;
-        background: #2c4a6e;
+        background: #1A225C;
         color: #fff;
         border: none;
         border-radius: 6px;
@@ -191,30 +191,32 @@
     }
 
         .btn-gestionar:hover {
-            background: #3a5a8e;
+            background: #161D3A;
             color: #fff;
         }
 
     .btn-config {
-        background: #f0f2f5;
-        color: #6b7c8d;
+        background: #f4f4f8;
+        color: #A9A9C7;
         border: none;
         border-radius: 6px;
         padding: 8px 12px;
         font-size: 0.82rem;
         transition: background 0.2s;
         cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
     }
 
         .btn-config:hover {
             background: #e0e4e8;
-            color: #1a2a3a;
+            color: #1A225C;
         }
 
-    /* Badge próximamente */
     .badge-soon {
-        background: #f0f2f5;
-        color: #9ab0c4;
+        background: #f4f4f8;
+        color: #A9A9C7;
         font-size: 0.65rem;
         padding: 3px 8px;
         border-radius: 20px;
@@ -222,10 +224,9 @@
         letter-spacing: 0.05em;
     }
 
-    /* Card agregar foro */
     .foro-card-add {
         background: #fafbfc;
-        border: 2px dashed #dce3ea;
+        border: 2px dashed #d0d0e8;
         border-radius: 12px;
         display: flex;
         flex-direction: column;
@@ -239,7 +240,7 @@
     }
 
         .foro-card-add:hover {
-            border-color: #4a7fa5;
+            border-color: #A9A9C7;
             background: #eef4fa;
         }
 
@@ -249,21 +250,21 @@
         }
 
         .foro-card-add span {
-            color: #9ab0c4;
+            color: #A9A9C7;
             font-size: 0.85rem;
             font-weight: 600;
         }
 
         .foro-card-add:hover i,
         .foro-card-add:hover span {
-            color: #4a7fa5;
+            color: #1A225C;
         }
 
     /* Actividad reciente */
     .actividad-lista {
         background: #fff;
         border-radius: 12px;
-        border: 1px solid #e8eef4;
+        border: 1px solid rgba(169,169,199,0.3);
         overflow: hidden;
     }
 
@@ -302,19 +303,19 @@
         .act-info strong {
             display: block;
             font-size: 0.85rem;
-            color: #1a2a3a;
+            color: #1A225C;
             font-weight: 600;
         }
 
         .act-info span {
             font-size: 0.75rem;
-            color: #9ab0c4;
+            color: #A9A9C7;
         }
 
     .act-foro {
         font-size: 0.72rem;
         background: #eef4fa;
-        color: #4a7fa5;
+        color: #1A225C;
         padding: 2px 8px;
         border-radius: 20px;
         font-weight: 600;
@@ -326,7 +327,7 @@
 <div class="admin-hero">
     <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h2><i class="fa fa-gauge me-2" style="color:#4a7fa5;"></i>Panel de Administración</h2>
+            <h2><i class="fa fa-gauge me-2" style="color:#A9A9C7;"></i>Panel de Administración</h2>
             <p>Gestiona todos los foros y publicaciones de la plataforma</p>
         </div>
     </div>
@@ -340,7 +341,7 @@
     <div class="stats-row">
         <div class="stat-mini">
             <div class="ico" style="background:#eef4fa;">
-                <i class="fa fa-layer-group" style="color:#4a7fa5;"></i>
+                <i class="fa fa-layer-group" style="color:#A9A9C7;"></i>
             </div>
             <div>
                 <div class="val" id="statForos">1</div>
@@ -353,8 +354,8 @@
                 <i class="fa fa-fire" style="color:#b33030;"></i>
             </div>
             <div>
-                <div class="val" id="statConflictosActivos" style="color:#b33030;">—</div>
-                <div class="lbl">Conflictos activos</div>
+                <div class="val" id="statConflictosActivos" style="color:#b33030;">0</div>
+                <div class="lbl">Posts activos</div>
             </div>
         </div>
 
@@ -363,7 +364,7 @@
                 <i class="fa fa-database" style="color:#2a6e3a;"></i>
             </div>
             <div>
-                <div class="val" id="statTotal" style="color:#2a6e3a;">—</div>
+                <div class="val" id="statTotal" style="color:#2a6e3a;">0</div>
                 <div class="lbl">Total publicaciones</div>
             </div>
         </div>
@@ -373,7 +374,7 @@
                 <i class="fa fa-map-marker-alt" style="color:#a07520;"></i>
             </div>
             <div>
-                <div class="val" id="statPaises" style="color:#a07520;">—</div>
+                <div class="val" id="statPaises" style="color:#a07520;">0</div>
                 <div class="lbl">Países registrados</div>
             </div>
         </div>
@@ -388,7 +389,7 @@
         <div class="foro-card">
             <div class="foro-card-header">
                 <div class="foro-card-icon" style="background:#eef4fa;">
-                    <i class="fa-solid fa-shield-halved" style="color:#2c4a6e;"></i>
+                    <i class="fa-solid fa-shield-halved" style="color:#1A225C;"></i>
                 </div>
                 <div class="foro-card-info">
                     <h5>Foro Militar</h5>
@@ -431,7 +432,7 @@
                 </div>
             </div>
             <div class="foro-card-footer">
-                <button class="btn-gestionar" style="background:#9ab0c4; cursor:not-allowed;">
+                <button class="btn-gestionar" style="background:#A9A9C7; cursor:not-allowed;">
                     <i class="fa fa-lock"></i> No disponible
                 </button>
             </div>
@@ -448,7 +449,7 @@
                 </div>
             </div>
             <div class="foro-card-footer">
-                <button class="btn-gestionar" style="background:#9ab0c4; cursor:not-allowed;">
+                <button class="btn-gestionar" style="background:#A9A9C7; cursor:not-allowed;">
                     <i class="fa fa-lock"></i> No disponible
                 </button>
             </div>
@@ -465,7 +466,7 @@
                 </div>
             </div>
             <div class="foro-card-footer">
-                <button class="btn-gestionar" style="background:#9ab0c4; cursor:not-allowed;">
+                <button class="btn-gestionar" style="background:#A9A9C7; cursor:not-allowed;">
                     <i class="fa fa-lock"></i> No disponible
                 </button>
             </div>
@@ -484,8 +485,8 @@
 
     <div class="actividad-lista" id="actividadLista">
         <div class="actividad-item">
-            <div class="act-icon" style="background:#f0f2f5;">
-                <i class="fa fa-spinner fa-spin" style="color:#9ab0c4;"></i>
+            <div class="act-icon" style="background:#f4f4f8;">
+                <i class="fa fa-spinner fa-spin" style="color:#A9A9C7;"></i>
             </div>
             <div class="act-info">
                 <strong>Cargando...</strong>
@@ -496,59 +497,103 @@
 </div>
 
 @section scripts {
-    <script>document.addEventListener('DOMContentLoaded', function () {
-        fetch('/api/Foro')
-            .then(res => res.json())
-            .then(data => {
-                const total   = data.length;
-                const activos = data.filter(f => f.Activa === true).length;
-                const paises  = new Set(data.map(f => (f.Pais || '').trim().toLowerCase()).filter(p => p !== ''));
+    <script>
 
-                // Stats globales
-                animarContador('statTotal', total);
-                animarContador('statConflictosActivos', activos);
-                animarContador('statPaises', paises.size);
+        // ── Contador animado ──────────────────────────────────────────────
+        function animarContador(idElemento, valorFinal) {
+            const el = document.getElementById(idElemento);
+            if (!el) return;
+            let inicio = 0;
+            const duracion = 1200;
+            const intervalo = 40;
+            const pasos = duracion / intervalo;
+            const incremento = valorFinal / pasos;
 
-                // Stats foro militar
-                animarContador('totalMilitar', total);
-                animarContador('activosMilitar', activos);
-                animarContador('paisesMilitar', paises.size);
+            const timer = setInterval(() => {
+                inicio += incremento;
+                if (inicio >= valorFinal) {
+                    el.innerText = valorFinal;
+                    clearInterval(timer);
+                } else {
+                    el.innerText = Math.floor(inicio);
+                }
+            }, intervalo);
+        }
 
-                // Actividad reciente — últimos 5
-                const recientes = [...data].reverse().slice(0, 5);
-                const lista = document.getElementById('actividadLista');
-                lista.innerHTML = '';
+        // ── Carga de datos ────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/Posts')
+                .then(res => res.json())
+                .then(data => {
 
-                recientes.forEach(f => {
-                    const fecha  = f.Fecha ? f.Fecha.split('T')[0] : '';
-                    const activa = f.Activa
-                        ? `<span style="color:#b33030; font-size:0.7rem;"><i class="fa fa-circle me-1"></i>Activo</span>`
-                        : `<span style="color:#9ab0c4; font-size:0.7rem;"><i class="fa fa-circle me-1"></i>Histórico</span>`;
+                    const total = data.length;
+                    const activos = data.filter(p => !p.IsDeleted).length;
+                    const paises = new Set(
+                        data
+                            .map(p => (p.Country || '').trim().toLowerCase())
+                            .filter(p => p !== '')
+                    );
 
-                    lista.innerHTML += `
-                    <div class="actividad-item">
-                        <div class="act-icon" style="background:#eef4fa;">
-                            <i class="fa-solid fa-shield-halved" style="color:#2c4a6e;"></i>
-                        </div>
-                        <div class="act-info">
-                            <strong>${f.Titulo}</strong>
-                            <span>${fecha} · ${f.Pais || 'Sin país'} · ${activa}</span>
-                        </div>
-                        <span class="act-foro">Militar</span>
-                    </div>`;
+                    // Stats globales
+                    animarContador('statTotal', total);
+                    animarContador('statConflictosActivos', activos);
+                    animarContador('statPaises', paises.size);
+
+                    // Stats foro militar
+                    animarContador('totalMilitar', total);
+                    animarContador('activosMilitar', activos);
+                    animarContador('paisesMilitar', paises.size);
+
+                    // Agrupar por comunidad (para uso futuro)
+                    const comunidades = {};
+                    data.forEach(p => {
+                        const nombre = p.Community?.Name || 'General';
+                        if (!comunidades[nombre]) comunidades[nombre] = { total: 0, activos: 0 };
+                        comunidades[nombre].total++;
+                        if (!p.IsDeleted) comunidades[nombre].activos++;
+                    });
+                    console.log('Resumen por comunidad:', comunidades);
+
+                    // Actividad reciente — últimas 5
+                    const recientes = [...data]
+                        .sort((a, b) => new Date(b.CreatedAt) - new Date(a.CreatedAt))
+                        .slice(0, 5);
+
+                    const lista = document.getElementById('actividadLista');
+                    lista.innerHTML = '';
+
+                    recientes.forEach(p => {
+                        const fecha = p.CreatedAt ? p.CreatedAt.split('T')[0] : '';
+                        const activa = !p.IsDeleted
+                            ? `<span style="color:#b33030;font-size:0.7rem;"><i class="fa fa-circle me-1"></i>Activo</span>`
+                            : `<span style="color:#A9A9C7;font-size:0.7rem;"><i class="fa fa-circle me-1"></i>Eliminado</span>`;
+
+                        lista.innerHTML += `
+                            <div class="actividad-item">
+                                <div class="act-icon" style="background:#eef4fa;">
+                                    <i class="fa fa-layer-group" style="color:#1A225C;"></i>
+                                </div>
+                                <div class="act-info">
+                                    <strong>${p.Title}</strong>
+                                    <span>${fecha} · ${p.Country || 'Sin país'} · ${activa}</span>
+                                </div>
+                                <span class="act-foro">${p.Community?.Name || 'General'}</span>
+                            </div>`;
+                    });
+                })
+                .catch(() => {
+                    document.getElementById('actividadLista').innerHTML = `
+                        <div class="actividad-item">
+                            <div class="act-icon" style="background:#fdeaea;">
+                                <i class="fa fa-exclamation-triangle" style="color:#b33030;"></i>
+                            </div>
+                            <div class="act-info">
+                                <strong>No se pudo conectar con la API</strong>
+                                <span>Verifica que /api/Posts esté disponible</span>
+                            </div>
+                        </div>`;
                 });
-            });
-    });
+        });
 
-    function animarContador(id, objetivo) {
-        const el = document.getElementById(id);
-        if (!el) return;
-        let actual = 0;
-        const paso = Math.ceil(objetivo / 30);
-        const intervalo = setInterval(() => {
-            actual = Math.min(actual + paso, objetivo);
-            el.innerText = actual;
-            if (actual >= objetivo) clearInterval(intervalo);
-        }, 40);
-    }</script>
+    </script>
 }

@@ -241,6 +241,11 @@
                 Gestionar Información
             </a>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> cf165f8 (Alineacion de algunos estilos con la nueva BD)
             <div class="sidebar-section">Usuario</div>
 
             <a href="@Url.Action("Index", "HomeUsuario")"
@@ -249,6 +254,10 @@
                 Vista Usuario
             </a>
 
+<<<<<<< HEAD
+=======
+>>>>>>> b8afad0 (alineacion de cositas de Front con la nueva BD)
+>>>>>>> cf165f8 (Alineacion de algunos estilos con la nueva BD)
         </nav>
 
         <div class="sidebar-footer">
@@ -289,6 +298,27 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <script>
+        fetch('/api/Foro')
+            .then(r => r.json())
+            .then(data => {
+                const activos = data.filter(f => f.Activa === true).length;
+                const badge = document.getElementById('sidebar-badge');
+                if (activos > 0) {
+                    badge.innerText = activos;
+                } else {
+                    badge.style.display = 'none';
+                }
+            })
+            .catch(() => {
+                document.getElementById('sidebar-badge').style.display = 'none';
+            });
+    </script>
+=======
+>>>>>>> cf165f8 (Alineacion de algunos estilos con la nueva BD)
 <script>
     fetch('/api/Posts')
         .then(r => r.json())
@@ -309,6 +339,10 @@
             document.getElementById('sidebar-badge').style.display = 'none';
         });
 </script>
+<<<<<<< HEAD
+=======
+>>>>>>> b8afad0 (alineacion de cositas de Front con la nueva BD)
+>>>>>>> cf165f8 (Alineacion de algunos estilos con la nueva BD)
 
 </body>
 </html>

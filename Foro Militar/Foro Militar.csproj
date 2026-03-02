@@ -155,7 +155,14 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\ViewController\AdminController.cs" />
+=======
+<<<<<<< HEAD
+=======
+    <Compile Include="Controllers\ViewController\AdminController.cs" />
+>>>>>>> b8afad0 (alineacion de cositas de Front con la nueva BD)
+>>>>>>> cf165f8 (Alineacion de algunos estilos con la nueva BD)
     <Compile Include="Controllers\ForoController.cs" />
     <Compile Include="Controllers\ViewController\ForoViewController.cs" />
     <Compile Include="Controllers\ViewController\GloboViewController.cs" />

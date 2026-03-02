@@ -213,6 +213,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Community.cs" />
+    <Compile Include="Models\DashboardHomeViewModel.cs" />
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostCategory.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DashboardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -240,8 +242,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\DashboardPlaceholders.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\Layout.css" />
+    <Content Include="Content\TopCommunities.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -303,6 +307,12 @@
     <Content Include="Views\Communities\Public.cshtml" />
     <Content Include="Views\Resources\Public\SerachPublic.cshtml" />
     <Content Include="Views\Resources\Search.cshtml" />
+    <Content Include="Views\Dashboard\_TopCommunitiesByCategory.cshtml" />
+    <Content Include="Views\Dashboard\_MostVotedCommunities.cshtml" />
+    <Content Include="Views\Dashboard\_MostFollowedCommunities.cshtml" />
+    <Content Include="Views\Dashboard\_TrendingPost.cshtml" />
+    <Content Include="Views\Dashboard\_BeastOfWeek.cshtml" />
+    <Content Include="Views\Dashboard\_NewHighlightedCommunities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

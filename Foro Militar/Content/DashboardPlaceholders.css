@@ -1,0 +1,45 @@
+﻿/* ============================= */
+/* 🪶 PLACEHOLDER CUERVO */
+/* ============================= */
+
+.coming-soon-card {
+    margin-top: 40px;
+    padding: 40px;
+    border-radius: 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+    .coming-soon-card i {
+        font-size: 40px;
+        margin-bottom: 15px;
+        color: var(--primary-soft);
+        animation: floatCrow 3s ease-in-out infinite;
+    }
+
+    .coming-soon-card h3 {
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .coming-soon-card p {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+@keyframes floatCrow {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

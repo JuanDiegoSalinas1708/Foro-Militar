@@ -11,15 +11,25 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    @Styles.Render("~/Content/css")
+    <!-- Layout Base -->
     <link rel="stylesheet" href="~/Content/Layout.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Component Styles -->
+    <link href="~/Content/TopCommunities.css" rel="stylesheet" />
+    <link href="~/Content/DashboardPlaceholders.css" rel="stylesheet" />
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 
 <body>
 
     <div id="sidebar-backdrop"></div>
 
+    <!-- ============================= -->
+    <!-- SIDEBAR -->
+    <!-- ============================= -->
     <div id="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-avatar">
@@ -42,15 +52,20 @@
         </div>
     </div>
 
+    <!-- ============================= -->
+    <!-- TOPBAR -->
+    <!-- ============================= -->
     <div id="topbar">
         <div class="hamburger" onclick="toggleSidebar()">
             <i class="fa-solid fa-bars"></i>
         </div>
 
         <div class="topbar-right">
-            <input type="text" placeholder="Buscar..." onclick="toggleSearch()"
-                   style="background:var(--bg-elevated);border:1px solid var(--border-soft);
-               border-radius:8px;padding:6px 12px;color:var(--text-main);" />
+
+            <input type="text"
+                   placeholder="Buscar..."
+                   onclick="toggleSearch()"
+                   class="topbar-search" />
 
             <i class="fa-solid fa-bell topbar-icon"></i>
             <i class="fa-solid fa-gear topbar-icon"></i>
@@ -59,16 +74,26 @@
         </div>
     </div>
 
+    <!-- ============================= -->
+    <!-- SEARCH OVERLAY -->
+    <!-- ============================= -->
     <div id="search-overlay">
         <div class="search-results">
-            Resultados aparecerán aquí...
+            <i class="fa-solid fa-crow"></i>
+            <p>El cuervo está buscando...</p>
         </div>
     </div>
 
+    <!-- ============================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ============================= -->
     <div id="page-body">
         @RenderBody()
     </div>
 
+    <!-- ============================= -->
+    <!-- FOOTER -->
+    <!-- ============================= -->
     <div id="main-footer">
         Sistema Corvax · Arquitectura Modular
     </div>

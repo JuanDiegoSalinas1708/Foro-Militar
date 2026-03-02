@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using Foro.Entities.Models; // si lo necesitas
+// Ajusta el namespace si es diferente
 
-namespace Foro_Militar.Controllers
+namespace Foro.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly AppDbContext _context = new AppDbContext();
+
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            // Si quieres comportamiento profesional:
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Dashboard");
 
-            return View();
+            var communities = _context.Communities.ToList();
+
+            return View(communities);
         }
     }
 }
-

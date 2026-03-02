@@ -200,6 +200,7 @@
     <Compile Include="Controllers\ApiControllerAttribute.cs" />
     <Compile Include="Controllers\AppDbContext.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\ForoController.cs" />
     <Compile Include="Controllers\ForoViewController.cs" />
     <Compile Include="Controllers\GloboViewController.cs" />
@@ -239,6 +240,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Home.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -290,6 +292,15 @@
     <Content Include="Views\GloboView\Index.cshtml" />
     <Content Include="Views\Auth\Register.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\Shared\Components\Home\_Hero.cshtml" />
+    <Content Include="Views\Shared\Components\Home\_CommunityCard.cshtml" />
+    <Content Include="Views\Shared\Components\Home\_CommunityList.cshtml" />
+    <Content Include="Views\Shared\Components\Home\_AuthCTA.cshtml" />
+    <Content Include="Views\Shared\Layout\_TopbarAuth.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutPublic.cshtml" />
+    <Content Include="Views\Communities\Public.cshtml" />
+    <Content Include="Views\Resources\Public\SerachPublic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

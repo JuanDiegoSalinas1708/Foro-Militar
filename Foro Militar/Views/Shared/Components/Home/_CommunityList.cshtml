@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Foro.Entities.Models.Community>
+
+<section class="community-section">
+    <h2>Comunidades disponibles</h2>
+
+    <div class="community-grid">
+        @foreach (var community in Model)
+        {
+            @Html.Partial("~/Views/Shared/Components/Home/_CommunityCard.cshtml", community)
+        }
+    </div>
+</section>

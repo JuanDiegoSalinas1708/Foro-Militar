@@ -1,4 +1,5 @@
 ﻿using Foro.Entities.Models;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -24,6 +25,7 @@ public class AuthController : Controller
     // POST: /Auth/Register
     // =========================================
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public ActionResult Register(RegisterRequest request)
     {
         if (!ModelState.IsValid)
@@ -35,6 +37,12 @@ public class AuthController : Controller
             return View(request);
         }
 
+        if (_context.Users.Any(u => u.Username == request.Username))
+        {
+            ModelState.AddModelError("", "El nombre de usuario ya existe");
+            return View(request);
+        }
+
         var user = new User
         {
             Username = request.Username,
@@ -43,7 +51,16 @@ public class AuthController : Controller
         };
 
         _context.Users.Add(user);
-        _context.SaveChanges();
+
+        try
+        {
+            _context.SaveChanges();
+        }
+        catch (DbUpdateException)
+        {
+            ModelState.AddModelError("", "Error al crear usuario.");
+            return View(request);
+        }
 
         return RedirectToAction("Login");
     }
@@ -78,7 +95,7 @@ public class AuthController : Controller
         Session["Username"] = user.Username;
         Session["Role"] = user.Role;
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Dashboard");
     }
 
     // =========================================

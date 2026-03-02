@@ -1,37 +1,84 @@
 ﻿@model RegisterRequest
-
 @{
-    ViewBag.Title = "Registro";
-    Layout = null;   // Quita el layout general si quieres página limpia
+    ViewBag.Title = "Crear Cuenta";
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
 }
 
-<h2>Registro</h2>
+<div class="auth-wrapper">
+    <div class="form-container">
 
-@using (Html.BeginForm("Register", "Auth", FormMethod.Post))
-{
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <p class="title">Crear cuenta en <span>Corvax</span></p>
 
-    <div>
-        <label>Username</label>
-        @Html.TextBoxFor(m => m.Username)
-        @Html.ValidationMessageFor(m => m.Username)
+        @using (Html.BeginForm("Register", "Auth", FormMethod.Post, new { @class = "form", autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "error" })
+
+            <div class="input-group">
+                <label>Username</label>
+                @Html.TextBoxFor(m => m.Username, new
+                {
+                    placeholder = "Alias estratégico",
+                    maxlength = "30",
+                    required = "required"
+                })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "error" })
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                @Html.TextBoxFor(m => m.Email, new
+                {
+                    type = "email",
+                    placeholder = "correo@ejemplo.com",
+                    required = "required"
+                })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "error" })
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                @Html.PasswordFor(m => m.Password, new
+                {
+                    placeholder = "••••••••",
+                    minlength = "8",
+                    required = "required"
+                })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "error" })
+            </div>
+
+            <div class="input-group">
+                <label>Confirmar Password</label>
+                <input type="password"
+                       name="ConfirmPassword"
+                       placeholder="Repite tu contraseña"
+                       minlength="8"
+                       required />
+            </div>
+
+            <button type="submit" class="sign">Crear cuenta</button>
+        }
+
+        <div class="social-message">
+            <div class="line"></div>
+            <p class="message">O regresa al inicio</p>
+            <div class="line"></div>
+        </div>
+
+        <p class="signup">
+            ¿Ya tienes cuenta?
+            <a href="@Url.Action("Login","Auth")">Iniciar sesión</a>
+        </p>
+
+        <p class="signup" style="margin-top:10px;">
+            <a href="@Url.Action("Index","Home")">
+                ← Volver al Home
+            </a>
+        </p>
+
     </div>
-
-    <div>
-        <label>Email</label>
-        @Html.TextBoxFor(m => m.Email)
-        @Html.ValidationMessageFor(m => m.Email)
-    </div>
-
-    <div>
-        <label>Password</label>
-        @Html.PasswordFor(m => m.Password)
-        @Html.ValidationMessageFor(m => m.Password)
-    </div>
-
-    <br />
-    <button type="submit">Registrarse</button>
-}
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

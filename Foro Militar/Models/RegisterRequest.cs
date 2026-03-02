@@ -3,15 +3,21 @@
 public class RegisterRequest
 {
     [Required]
-    [MaxLength(50)]
+    [StringLength(30, MinimumLength = 3)]
+    [RegularExpression("^[a-zA-Z0-9_]+$", ErrorMessage = "Solo letras, números y guion bajo")]
     public string Username { get; set; }
 
     [Required]
-    [MaxLength(100)]
     [EmailAddress]
+    [StringLength(100)]
     public string Email { get; set; }
 
     [Required]
-    [MinLength(6)]
+    [StringLength(100, MinimumLength = 8)]
+    [DataType(DataType.Password)]
     public string Password { get; set; }
+
+    [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
+    [DataType(DataType.Password)]
+    public string ConfirmPassword { get; set; }
 }

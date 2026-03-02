@@ -1,27 +1,53 @@
 ﻿@model LoginRequest
-
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Iniciar Sesión";
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
 }
 
-<h2>Login</h2>
+<div class="auth-wrapper">
+    <div class="form-container">
 
-@using (Html.BeginForm("Login", "Auth", FormMethod.Post))
-{
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <p class="title">Bienvenido a <span>Corvax</span></p>
 
-    <div>
-        <label>Email</label>
-        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { @class = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="input-group">
+                <label>Email</label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "", placeholder = "correo@ejemplo.com" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "error" })
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                @Html.PasswordFor(m => m.Password, new { placeholder = "••••••••" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "error" })
+
+                <div class="forgot">
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+
+            <button type="submit" class="sign">Entrar</button>
+        }
+
+        <div class="social-message">
+            <div class="line"></div>
+            <p class="message">O continuar con</p>
+            <div class="line"></div>
+        </div>
+
+        <div class="social-icons">
+            <button type="button" class="icon"><i class="fa-brands fa-google"></i></button>
+            <button type="button" class="icon"><i class="fa-brands fa-twitter"></i></button>
+            <button type="button" class="icon"><i class="fa-brands fa-github"></i></button>
+        </div>
+
+        <p class="signup">
+            ¿No tienes cuenta?
+            <a href="@Url.Action("Register","Auth")">Crear cuenta</a>
+        </p>
+
     </div>
-
-    <div>
-        <label>Password</label>
-        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-    </div>
-
-    <br />
-    <button type="submit">Ingresar</button>
-}
+</div>

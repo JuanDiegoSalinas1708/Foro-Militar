@@ -1,0 +1,10 @@
+﻿@if (!User.Identity.IsAuthenticated)
+{
+    <section class="home-cta">
+        <h2>Únete a la discusión</h2>
+        <p>Crea una cuenta para participar en las comunidades.</p>
+        <a href="/Auth/Register" class="btn-primary-custom">
+            Crear cuenta
+        </a>
+    </section>
+}

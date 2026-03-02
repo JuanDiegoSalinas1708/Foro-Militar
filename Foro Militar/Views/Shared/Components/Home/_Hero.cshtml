@@ -1,0 +1,14 @@
+﻿<section class="hero">
+    <div class="hero-content">
+        <h1>Foro Militar</h1>
+        <p>Explora comunidades sobre conflictos, estrategia y análisis geopolítico.</p>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="hero-buttons">
+                <a href="/Auth/Login" class="btn-primary-custom">Iniciar sesión</a>
+                <a href="/Auth/Register" class="btn-outline-custom">Registrarse</a>
+            </div>
+        }
+    </div>
+</section>

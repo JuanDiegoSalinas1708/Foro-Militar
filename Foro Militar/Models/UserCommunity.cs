@@ -7,11 +7,11 @@ namespace Foro.Entities.Models
     [Table("UserCommunities")]
     public class UserCommunity
     {
-        [Required]
+        [Key, Column(Order = 0)]
         public int UserId { get; set; }
         public virtual User User { get; set; }
 
-        [Required]
+        [Key, Column(Order = 1)]
         public int CommunityId { get; set; }
         public virtual Community Community { get; set; }
 

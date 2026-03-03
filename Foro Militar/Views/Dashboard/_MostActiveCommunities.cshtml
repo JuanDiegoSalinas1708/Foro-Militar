@@ -1,25 +1,25 @@
 ﻿@model Foro_Militar.Models.DashboardHomeViewModel
 
 <div class="board-title">
-    <i class="fa-solid fa-users"></i>
-    Comunidades Más Seguidas
+    <i class="fa-solid fa-chart-line"></i>
+    Comunidades Más Activas
 </div>
 
-@if (Model?.MostFollowedCommunities == null || !Model.MostFollowedCommunities.Any())
+@if (Model?.MostActiveCommunities == null || !Model.MostActiveCommunities.Any())
 {
     <div class="empty-state">
         <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" />
-        <p>Aún no hay comunidades seguidas.</p>
+        <p>Silencio... aún no hay actividad registrada.</p>
     </div>
 }
 else
 {
     <ul class="board-list">
-        @foreach (var community in Model.MostFollowedCommunities)
+        @foreach (var community in Model.MostActiveCommunities)
         {
             <li>
                 <strong>@community.Name</strong>
-                <span>@community.UserCommunities.Count seguidores</span>
+                <span>@community.Posts.Count publicaciones</span>
             </li>
         }
     </ul>

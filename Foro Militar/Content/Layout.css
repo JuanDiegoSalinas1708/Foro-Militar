@@ -158,6 +158,34 @@ body {
     gap: 20px;
 }
 
+/* ============================= */
+/* 🔎 TOPBAR SEARCH INPUT */
+/* ============================= */
+
+.topbar-search {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 6px 12px;
+    color: var(--text-main);
+    outline: none;
+    transition: 0.3s;
+    width: 180px;
+}
+
+    .topbar-search::placeholder {
+        color: var(--text-muted);
+    }
+
+    .topbar-search:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.25);
+    }
+
+    .topbar-search:hover {
+        border-color: var(--primary-soft);
+    }
+
 .topbar-icon {
     cursor: pointer;
     color: var(--text-muted);
@@ -167,7 +195,7 @@ body {
     .topbar-icon:hover {
         color: var(--text-main);
     }
-
+    
 .username-link {
     color: var(--primary);
     text-decoration: none;

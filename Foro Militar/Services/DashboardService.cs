@@ -12,9 +12,10 @@ namespace Foro.Web.Services
         {
             _context = new AppDbContext();
         }
-
-        public DashboardHomeViewModel BuildHome()
+            public DashboardHomeViewModel BuildHome()
         {
+            var lastWeek = System.DateTime.Now.AddDays(-7);
+
             var model = new DashboardHomeViewModel
             {
                 TrendingPosts = _context.Posts
@@ -34,6 +35,7 @@ namespace Foro.Web.Services
                     .ToList(),
 
                 MostActiveCommunities = _context.Communities
+                    .Include(c => c.Posts)
                     .OrderByDescending(c => c.Posts.Count)
                     .Take(5)
                     .ToList(),
@@ -45,14 +47,13 @@ namespace Foro.Web.Services
 
                 BestOfWeek = _context.Posts
                     .Where(p => !p.IsDeleted &&
-                                p.CreatedAt >= System.DateTime.Now.AddDays(-7))
+                                p.CreatedAt >= lastWeek)
                     .Include(p => p.Votes)
                     .Include(p => p.Community)
                     .OrderByDescending(p => p.Votes.Count)
                     .Take(5)
                     .ToList()
             };
-
             return model;
         }
     }

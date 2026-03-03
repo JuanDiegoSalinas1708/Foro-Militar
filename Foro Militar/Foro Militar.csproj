@@ -242,6 +242,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\DashboardBoard.css" />
     <Content Include="Content\DashboardPlaceholders.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\Layout.css" />
@@ -308,10 +309,10 @@
     <Content Include="Views\Resources\Public\SerachPublic.cshtml" />
     <Content Include="Views\Resources\Search.cshtml" />
     <Content Include="Views\Dashboard\_TopCommunitiesByCategory.cshtml" />
-    <Content Include="Views\Dashboard\_MostVotedCommunities.cshtml" />
+    <Content Include="Views\Dashboard\_MostActiveCommunities.cshtml" />
     <Content Include="Views\Dashboard\_MostFollowedCommunities.cshtml" />
     <Content Include="Views\Dashboard\_TrendingPost.cshtml" />
-    <Content Include="Views\Dashboard\_BeastOfWeek.cshtml" />
+    <Content Include="Views\Dashboard\_BestOfWeek.cshtml" />
     <Content Include="Views\Dashboard\_NewHighlightedCommunities.cshtml" />
   </ItemGroup>
   <ItemGroup>

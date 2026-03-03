@@ -1,25 +1,25 @@
 ﻿@model Foro_Militar.Models.DashboardHomeViewModel
 
 <div class="board-title">
-    <i class="fa-solid fa-fire"></i>
-    Tendencias
+    <i class="fa-solid fa-trophy"></i>
+    Lo Mejor de la Semana
 </div>
 
-@if (Model?.TrendingPosts == null || !Model.TrendingPosts.Any())
+@if (Model?.BestOfWeek == null || !Model.BestOfWeek.Any())
 {
     <div class="empty-state">
         <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" />
-        <p>El cuervo está observando... aún no hay tendencias.</p>
+        <p>El cuervo no encontró publicaciones destacadas esta semana.</p>
     </div>
 }
 else
 {
     <ul class="board-list">
-        @foreach (var post in Model.TrendingPosts)
+        @foreach (var post in Model.BestOfWeek)
         {
             <li>
                 <strong>@post.Title</strong>
-                <span>@post.Comments.Count comentarios · @post.Votes.Count votos</span>
+                <span>@post.Votes.Count votos</span>
             </li>
         }
     </ul>

@@ -1,7 +1,26 @@
-﻿
-@{
-    ViewBag.Title = "_NewHighlightedCommunities";
+﻿@model Foro_Militar.Models.DashboardHomeViewModel
+
+<div class="board-title">
+    <i class="fa-solid fa-star"></i>
+    Nuevas Comunidades
+</div>
+
+@if (Model?.NewHighlightedCommunities == null || !Model.NewHighlightedCommunities.Any())
+{
+    <div class="empty-state">
+        <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" />
+        <p>No hay comunidades nuevas todavía.</p>
+    </div>
 }
-
-<h2>_NewHighlightedCommunities</h2>
-
+else
+{
+    <ul class="board-list">
+        @foreach (var community in Model.NewHighlightedCommunities)
+        {
+            <li>
+                <strong>@community.Name</strong>
+                <span>Creada el @community.CreatedAt.ToShortDateString()</span>
+            </li>
+        }
+    </ul>
+}

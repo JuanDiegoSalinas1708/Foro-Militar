@@ -1,0 +1,19 @@
+﻿@model Foro_Militar.Models.CommunityViewModel
+
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="community-card"
+     style="background: linear-gradient(180deg, @Model.ColorBaseCalculated 0%, var(--primary) 100%);">
+
+    <h1>@Model.Name</h1>
+    <p>@Model.Description</p>
+
+    <div class="community-stats">
+        <span>@Model.TotalPosts publicaciones</span>
+        <span>@Model.TotalFollowers seguidores</span>
+    </div>
+
+</div>

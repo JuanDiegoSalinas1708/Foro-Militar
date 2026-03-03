@@ -1,0 +1,215 @@
+﻿/* ============================= */
+/* COMMUNITY CARD PRO */
+/* ============================= */
+
+.community-card-pro {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 26px;
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+    transition: 0.4s ease;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    position: relative;
+}
+
+    .community-card-pro:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 90px rgba(124,58,237,0.35);
+    }
+
+/* Banner */
+
+.community-banner-pro {
+    height: 200px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.banner-overlay-pro {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.85));
+}
+
+/* Crow animation */
+
+.banner-crow {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: rgba(255,255,255,0.07);
+    animation: floatCrow 6s ease-in-out infinite;
+}
+
+@keyframes floatCrow {
+    0%,100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Avatar integrado */
+
+.community-avatar-pro {
+    position: absolute;
+    bottom: 20px;
+    left: 25px;
+    width: 95px;
+    height: 95px;
+    border-radius: 24px;
+    background-size: cover;
+    background-position: center;
+    border: 3px solid rgba(0,0,0,0.8);
+    box-shadow: 0 0 25px var(--mainColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: white;
+    animation: pulseGlow 3s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+    0%,100% {
+        box-shadow: 0 0 15px var(--mainColor);
+    }
+
+    50% {
+        box-shadow: 0 0 35px var(--mainColor);
+    }
+}
+
+/* Banner Title */
+
+.banner-title {
+    position: absolute;
+    bottom: 30px;
+    left: 140px;
+    color: white;
+}
+
+    .banner-title h3 {
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+.country-badge {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    background: rgba(255,255,255,0.08);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+/* Body */
+
+.community-body-pro {
+    padding: 25px;
+}
+
+/* Meta */
+
+.community-meta-pro {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: 18px;
+}
+
+/* Description */
+
+.community-description-pro {
+    margin-top: 18px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Stats Dashboard */
+
+.community-stats-pro {
+    display: grid;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.stat-box-pro {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 14px;
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+    .stat-box-pro:hover {
+        background: rgba(255,255,255,0.09);
+        transform: translateX(5px);
+    }
+
+    .stat-box-pro i {
+        font-size: 1.2rem;
+        color: var(--mainColor);
+    }
+
+    .stat-box-pro span {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    .stat-box-pro strong {
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+/* Tags */
+
+.community-tags-pro {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+    .community-tags-pro span {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .community-tags-pro span:hover {
+            transform: scale(1.08);
+        }
+
+/* Footer */
+
+.community-footer-pro {
+    margin-top: 22px;
+    text-align: right;
+}
+
+.explore-btn-pro {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--mainColor);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+    .explore-btn-pro:hover {
+        color: white;
+    }

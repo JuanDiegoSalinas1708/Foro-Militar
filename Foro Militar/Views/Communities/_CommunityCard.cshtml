@@ -1,0 +1,133 @@
+﻿@model Foro_Militar.Models.CommunityViewModel
+
+@{
+    var hasBanner = !string.IsNullOrEmpty(Model.BannerUrl);
+    var hasImage = !string.IsNullOrEmpty(Model.ImageUrl);
+    var country = string.IsNullOrEmpty(Model.Country) ? "Global" : Model.Country;
+    var description = string.IsNullOrEmpty(Model.Description)
+        ? "Una comunidad lista para crear historia."
+        : Model.Description;
+    var creator = string.IsNullOrEmpty(Model.CreatedByName)
+        ? "Sistema"
+        : Model.CreatedByName;
+}
+
+<div class="community-card-pro reveal"
+     style="--mainColor:@Model.ColorBaseCalculated">
+
+    <!-- Banner -->
+    <div class="community-banner-pro @(hasBanner ? "" : "default-banner-pro")"
+         style="@(hasBanner
+            ? $"background-image:url('{Model.BannerUrl}')"
+            : $"background: linear-gradient(135deg, {Model.ColorBaseCalculated}, #050505);")">
+
+        <!-- Overlay dinámico -->
+        <div class="banner-overlay-pro"></div>
+
+        <!-- Icono animado Corvax -->
+        @if (!hasBanner)
+        {
+            <div class="banner-crow">
+                <i class="fa-solid fa-crow"></i>
+            </div>
+        }
+
+        <!-- Avatar integrado en banner -->
+        <div class="community-avatar-pro"
+             style="@(hasImage
+                ? $"background-image:url('{Model.ImageUrl}')"
+                : $"background: linear-gradient(135deg, {Model.ColorBaseCalculated}, #000);")">
+
+            @if (!hasImage)
+            {
+                <i class="fa-solid fa-crow"></i>
+            }
+        </div>
+
+        <!-- Nombre encima del banner -->
+        <div class="banner-title">
+            <h3>@Model.Name</h3>
+            <span class="country-badge">
+                <i class="fa-solid fa-earth-americas"></i> @country
+            </span>
+        </div>
+
+    </div>
+
+    <!-- BODY -->
+    <div class="community-body-pro">
+
+        <!-- Meta -->
+        <div class="community-meta-pro">
+            @if (!string.IsNullOrEmpty(Model.CreatedAtFormatted))
+            {
+                <span><i class="fa-solid fa-calendar"></i> @Model.CreatedAtFormatted</span>
+            }
+
+            <span><i class="fa-solid fa-user"></i> @creator</span>
+        </div>
+
+        <!-- Description -->
+        <p class="community-description-pro">
+            @(description.Length > 140
+              ? description.Substring(0, 140) + "..."
+              : description)
+        </p>
+
+        <!-- Stats Dashboard -->
+        <div class="community-stats-pro">
+
+            <div class="stat-box-pro">
+                <i class="fa-solid fa-users"></i>
+                <div>
+                    <span>Seguidores</span>
+                    <strong>@Model.TotalFollowers</strong>
+                </div>
+            </div>
+
+            <div class="stat-box-pro">
+                <i class="fa-solid fa-fire"></i>
+                <div>
+                    <span>Posts</span>
+                    <strong>@Model.TotalPosts</strong>
+                </div>
+            </div>
+
+            <div class="stat-box-pro">
+                <i class="fa-solid fa-layer-group"></i>
+                <div>
+                    <span>Categorías</span>
+                    <strong>@(Model.Categories?.Count ?? 0)</strong>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Categories -->
+        <div class="community-tags-pro">
+            @if (Model.Categories != null && Model.Categories.Any())
+            {
+                foreach (var cat in Model.Categories.Take(4))
+                {
+                    <span style="background:@(cat.ColorHex + "22"); border:1px solid @cat.ColorHex">
+                        @cat.Name
+                    </span>
+                }
+            }
+            else
+            {
+                <span class="tag-empty-pro">Sin categorías</span>
+            }
+        </div>
+
+        <!-- Footer -->
+        <div class="community-footer-pro">
+            <a href="@Url.Action("Details","Communities", new { id = Model.Id })"
+               class="explore-btn-pro">
+                Explorar →
+            </a>
+        </div>
+
+    </div>
+
+</div>

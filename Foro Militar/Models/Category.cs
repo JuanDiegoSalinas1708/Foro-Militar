@@ -26,6 +26,8 @@ namespace Foro.Entities.Models
         public string Description { get; set; }
 
         public int? CommunityId { get; set; }
+
+        [ForeignKey("CommunityId")]
         public virtual Community Community { get; set; }
 
         [Required]

@@ -34,9 +34,33 @@ namespace Foro.Entities.Models
         [Required]
         public bool IsActive { get; set; } = true;
 
+        [MaxLength(100)]
+        public string Country { get; set; }
+
+        [MaxLength(150)]
+        [Required]
+        public string Slug { get; set; }
+
+        [MaxLength(500)]
+        public string ImageUrl { get; set; }
+
+        [MaxLength(500)]
+        public string BannerUrl { get; set; }
+
+        public int? MainCategoryId { get; set; }
+        public virtual Category MainCategory { get; set; }
+
+        [MaxLength(1000)]
+        public string Rules { get; set; }
+
+        [Required]
+        public int Visibility { get; set; } = 0;
+
         // Relaciones
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<UserCommunity> UserCommunities { get; set; }
+
+        [InverseProperty("Community")]
         public virtual ICollection<Category> Categories { get; set; }
     }
 }

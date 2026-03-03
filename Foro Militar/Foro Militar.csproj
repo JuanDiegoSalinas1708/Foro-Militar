@@ -200,6 +200,7 @@
     <Compile Include="Controllers\ApiControllerAttribute.cs" />
     <Compile Include="Controllers\AppDbContext.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\CommunitiesController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\ForoController.cs" />
     <Compile Include="Controllers\ForoViewController.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Community.cs" />
+    <Compile Include="Models\CommunityViewModel.cs" />
     <Compile Include="Models\DashboardHomeViewModel.cs" />
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\Post.cs" />
@@ -242,6 +244,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\Communities.css" />
     <Content Include="Content\DashboardBoard.css" />
     <Content Include="Content\DashboardPlaceholders.css" />
     <Content Include="Content\Home.css" />
@@ -314,6 +317,9 @@
     <Content Include="Views\Dashboard\_TrendingPost.cshtml" />
     <Content Include="Views\Dashboard\_BestOfWeek.cshtml" />
     <Content Include="Views\Dashboard\_NewHighlightedCommunities.cshtml" />
+    <Content Include="Views\Communities\_CommunityCard.cshtml" />
+    <Content Include="Views\Communities\Index.cshtml" />
+    <Content Include="Views\Communities\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

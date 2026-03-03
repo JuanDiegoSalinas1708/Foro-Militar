@@ -1,0 +1,15 @@
+﻿@model List<Foro_Militar.Models.CommunityViewModel>
+
+@{
+    ViewBag.Title = "Comunidades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="margin-bottom:40px;">Explorar Comunidades</h2>
+
+<div class="dashboard-grid">
+    @foreach (var community in Model)
+    {
+        @Html.Partial("_CommunityCard", community)
+    }
+</div>

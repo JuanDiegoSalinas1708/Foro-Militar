@@ -1,0 +1,2 @@
+﻿SELECT * FROM Categories;
+GO

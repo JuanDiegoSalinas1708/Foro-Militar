@@ -13,6 +13,8 @@ namespace Foro.Entities.Models
 
         [Key, Column(Order = 1)]
         public int CommunityId { get; set; }
+
+        [ForeignKey("CommunityId")]
         public virtual Community Community { get; set; }
 
         [Required]
